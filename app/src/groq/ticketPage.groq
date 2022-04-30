@@ -1,0 +1,7 @@
+*[slug.current == $slug][0] {
+	...,
+
+	documentation[] {
+		..., asset->{ url }
+	}
+}
