@@ -157,8 +157,7 @@
 				</form>
 			</div>
 		</div>
-		<button @click="createProject">[[[[ Create a new project ]]]]</button>
-		<button @click="patchProject">[[[[ Patch ]]]]</button>
+		
 	</section>
 </template>
 
@@ -206,26 +205,7 @@
 				console.log(this.formData.category)
 				console.log(this.formData.priority)
 			},
-
-			createProject() {
-				/* bare hvis withCredentials: true! */
-				sanity.create({
-					_type: 'bug',
-					title: 'NEW BUG!!!',
-				});
-			},
-
-			patchProject() {
-				/* bare hvis withCredentials: true! */
-
-				sanity
-					.patch('fa8c1a6d-d049-42a2-b88d-12a5683c978a')
-					.set({ priority: 4 })
-					.commit()
-					.then(updatedDocument => {
-						console.log('I just updated document:', updatedDocument);
-					});
-			},
+			
 		}
 	}
 </script>
