@@ -1,0 +1,35 @@
+tickets: [
+            {
+                category: 'Q1 2022',
+                color: 'red',
+                title: 'NFT Safety',
+                person: '/images/justus.jpg',
+                status: 'done',
+                priority: 5,
+                progress: 40,
+                description: 'Make a video showcasing',
+                timestamp: '2022-04-21T07:36:17+0000'
+            },
+            {
+                category: 'Q1 2022',
+                color: 'red',
+                title: 'Build and sell AI',
+                person: '/images/justus.jpg',
+                status: 'working on it',
+                priority: 2,
+                progress: 70,
+                description: 'Make a video showcasing',
+                timestamp: '2022-04-21T07:36:17+0000'
+            },
+            {
+                category: 'Q2 2022',
+                color: 'blue',
+                title: 'Build a bot',
+                person: '/images/justus.jpg',
+                status: 'done',
+                priority: 5,
+                progress: 40,
+                description: 'Make a video showcasing',
+                timestamp: '2022-04-21T07:36:17+0000'
+            },
+        ],
