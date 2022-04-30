@@ -1,8 +1,5 @@
-## how-to
+## About the Bugs Tracker
 
-1. finder: finne prosjektmappen
-2. finder: høyreklikk --> terminal tab at folder
-3. terminal: git clone REPO.git
-4. finder: gi mappen et nytt navn
-5. finder: cmd + .
-6. finder: slett .git/
+This is an Application for Bugs Tracker. Assigning bugs (issues) to team members and tracking through the application.
+
+Run npm install before start coding. Run npm run dev to display application on browser.
