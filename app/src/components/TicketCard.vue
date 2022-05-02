@@ -12,9 +12,13 @@
             <PriorityDisplay 
                 :priority = filteredTicket.priority
             />
+            <AssigneeDisplay 
+                :assignee = filteredTicket.assignee.image.asset.url
+            />
             <ProgressDisplay 
                 :progress = filteredTicket.progress
             />
+
         </router-link>
 
         <DeleteBlock />
@@ -25,6 +29,7 @@
     import TicketOwnerDisplay from './TicketOwnerDisplay.vue'
     import StatusDisplay from './StatusDisplay.vue'
     import PriorityDisplay from './PriorityDisplay.vue'
+    import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
     import DeleteBlock from './DeleteBlock.vue'
 
@@ -37,6 +42,7 @@
             TicketOwnerDisplay,
             StatusDisplay,
             PriorityDisplay,
+            AssigneeDisplay,
             ProgressDisplay,
             DeleteBlock
         },
