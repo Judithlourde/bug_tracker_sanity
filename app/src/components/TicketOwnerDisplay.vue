@@ -2,7 +2,7 @@
     <div class="TicketOwnerDisplay-container">
         <div class="TicketOwnerDisplay-container__developer-image">
             <img v-if="ticketOwner" :src="ticketOwner" alt="">
-            <img v-else src="" alt="">
+            <img v-else src="/images/employee-placeholder.png" alt="emloyee placeholder image">
         </div>
         
     </div>

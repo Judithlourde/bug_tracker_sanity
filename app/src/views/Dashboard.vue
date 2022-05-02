@@ -5,7 +5,7 @@
 			<h1>Bugs Tracker</h1>
 			<div class="dashboard__ticket-container">
 				<div v-for="(uniqueTeam, index) in uniqueTeams" :key="uniqueTeam.id"> 
-					{{ uniqueTeam }}
+					{{ uniqueTeam }} 
 					<div v-for="bug in result.filter(bug => bug.team.name === uniqueTeam)" :key="bug.id">
 						<TicketCard 
 							:filteredTicket="bug"
