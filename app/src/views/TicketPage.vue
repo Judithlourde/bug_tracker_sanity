@@ -27,25 +27,25 @@
 							v-model="formData.description"
 						/>
 
-						<label for="category">Category</label>
+						<label for="team">Team</label>
 						<select 
-							id="category"
-							name="category" 
-							v-model="formData.category"
-							@click="handleChange" 	
+							id="team"
+							name="team" 
+							v-model="formData.team"
+								
 						>
-							<div v-for="category in categories" :key="category.id">
-								<option value="category">{{ category }}</option>
-							</div>
+							<!-- <div v-for="team in teams" :key="team.id"> -->
+								<option v-for="team in teams" :key="team.id" value="team">{{ team }}</option>
+							<!-- </div> -->
 						</select>
 
-						<label for="new-category">New Category</label>
+						<label for="new-team">New Team</label>
 						<input 
-							id="new-category" 
-							name="category" 
+							id="new-team" 
+							name="team" 
 							type="text" 
 							@keyup.enter="handleChange" 
-							v-model="formData.category"
+							v-model="formData.team"
 						>
 
 						<label for="priority">Priority</label>
@@ -101,7 +101,9 @@
 							<label for="priority-5">5</label>
 						</div>
 
-						<div v-if="editMode">
+						<!-- <div v-if="editMode"> -->
+						<div>
+							<label for="progress">Progress</label>
 							<input 
 								type="range"
 								id="progress"
@@ -111,20 +113,20 @@
 								max="100"
 								@keyup.enter="handleChange"
 							>
-							<label for="progress">Progress</label>
-
+							
 							<label for="status">Status</label>
 							<select 
-								name="status" 
 								id="status"
+								name="status" 
 								@keyup.enter="handleChange"
 								v-model="formData.status"
 							
 							>
-								<option value="done">Done</option>
+								<option value="not started">Not started yet</option>
 								<option value="working on it">Working on it</option>
 								<option value="stuck">Stuck</option>
-								<option value="not started">Not started</option>
+								<option value="done">Done</option>
+								
 							</select>
 						</div>
 
@@ -132,26 +134,48 @@
 					</section>
 
 					<section>
-						<label for="owner">Owner</label>
+						<label for="owner">Reporter</label>
 						<input 
-							id="owner" 
-							name="owner" 
+							id="reporter" 
+							name="reporter" 
 							type="text" 
 							@keyup.enter="handleChange" 
-							v-model="formData.owner"
+							v-model="formData.reporter"
 						>
 
-						<label for="ownerImage">Owner Image</label>
+						<label for="reporterImage">Reporter Image</label>
 						<input 
-							id="ownerImage" 
-							name="ownerImage" 
+							id="reporterImage" 
+							name="reporterImage" 
 							type="text" 
 							@keyup.enter="handleChange" 
-							v-model="formData.ownerImage"
+							v-model="formData.reporterImage"
 						>
 
-						<div class="owner-image">
-							<img v-if="formData.ownerImage" :src="formData.ownerImage" alt="Owner image">
+						<div class="reporter-image">
+							<img v-if="formData.reporterImage" :src="formData.reporterImage" alt="Reporter image">
+						</div>
+
+						<label for="assignee">Assignee</label>
+						<input 
+							id="assignee" 
+							name="assignee" 
+							type="text" 
+							@keyup.enter="handleChange" 
+							v-model="formData.assignee"
+						>
+
+						<label for="assigneeImage">Assignee Image</label>
+						<input 
+							id="assigneeImage" 
+							name="assigneeImage" 
+							type="text" 
+							@keyup.enter="handleChange" 
+							v-model="formData.assigneeImage"
+						>
+
+						<div class="assignee-image">
+							<img v-if="formData.assigneeImage" :src="formData.assigneeImage" alt="Assignee image">
 						</div>
 					</section>
 				</form>
@@ -163,7 +187,8 @@
 
 <script> 
 	import sanity from '../sanity.js';
-	import query from '../groq/ticketPage.groq?raw';
+	import query from '../groq/dashboard.groq?raw';
+	// import query from '../groq/ticketPage.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	export default {
 		mixins: [viewMixin],
@@ -176,7 +201,7 @@
 					progress: 0,
 					timestamp: new Date().toISOString(),
 				},
-				categories: ['test1', 'test2']
+				teams:[]
 			}
 		},
 
@@ -192,9 +217,18 @@
 		// 	});
 		// },
 
+		async created() {
+			await this.sanityFetch(query, { 
+				documentType: 'bug' 
+			});
+
+			this.uniqueTickets();
+		},
+
 		methods: {
 			handleSubmit() {
 				console.log('submitted')
+				console.log(this.teams)
 			},
 
 			handleChange() {
@@ -204,6 +238,12 @@
 				console.log(this.formData.status)
 				console.log(this.formData.category)
 				console.log(this.formData.priority)
+			},
+
+			uniqueTickets() {
+				// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
+				this.teams = [ ...new Set(this.result.map(({ team }) => team.name)) ];  // Change this.tickets to tickets? after getting data from database
+				console.log(this.uniqueTeams)
 			},
 			
 		}

@@ -18,7 +18,9 @@
             <ProgressDisplay 
                 :progress = filteredTicket.progress
             />
-
+            <SubmitDateDisplay
+                :submitDate = filteredTicket.submitDate
+            />
         </router-link>
 
         <DeleteBlock />
@@ -31,6 +33,7 @@
     import PriorityDisplay from './PriorityDisplay.vue'
     import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
+    import SubmitDateDisplay from './SubmitDateDisplay.vue'
     import DeleteBlock from './DeleteBlock.vue'
 
     export default {
@@ -44,10 +47,9 @@
             PriorityDisplay,
             AssigneeDisplay,
             ProgressDisplay,
+            SubmitDateDisplay,
             DeleteBlock
-        },
-
-        
+        },     
     }
 </script>
 
@@ -55,7 +57,7 @@
 <style>
     .ticketCard {
         display: flex;
-        width: 80vw;
+        width: 90vw;
     }
 
     .ticketCard a h3 {
@@ -72,7 +74,7 @@
     .ticketCard a > * {
         background-color: rgb(245, 245, 245);
         margin: 2px;
-        padding: 8px;
+        padding: 5px;
         width: 100%;
         display: flex;
         align-items: center;
