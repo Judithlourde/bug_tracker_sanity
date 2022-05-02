@@ -1,8 +1,8 @@
 <template>
     <div class="AssigneeDisplay-container">
         <div class="AssigneeDisplay-container__developer-image">
-            <!-- <img v-if="" :src="" alt=""> -->
-            <!-- <img v-else src="" alt=""> -->
+            <img v-if="assignee" :src="assignee" alt="">
+            <img v-else src="/images/employee-placeholder.png" alt="emloyee placeholder image">
         </div>
         
     </div>
@@ -10,27 +10,27 @@
 
 <script>
     export default {
-        // props: {
-        //     {assignee:  String }
-        // }
+        props: {
+            assignee: { String }
+        }
     }
 </script>
 
 <style>
-    .TicketOwnerDisplay-container {
+    .AssigneeDisplay-container {
         width: 80%;
         display: flex;
         justify-content: center;
     }
 
-    .TicketOwnerDisplay-container__developer-image {
+    .AssigneeDisplay-container__developer-image {
         width: 50px;
         height: 50px;
         border-radius: 25px;
         overflow: hidden;
     }
 
-    .TicketOwnerDisplay-container__developer-image img {
+    .AssigneeDisplay-container__developer-image img {
         width: 100%;
     }
 </style>
