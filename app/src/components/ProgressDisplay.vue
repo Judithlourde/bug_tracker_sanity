@@ -20,7 +20,7 @@
 }
 .progress-display__progress-bar {
     width: 100%;
-    height: 30px;
+    height: 20px;
     background-color: #eee;
     border-radius: 15px;
     overflow: hidden;
