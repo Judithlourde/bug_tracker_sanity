@@ -109,10 +109,11 @@
 
 	.dashboard__ticket-container-title > * {
         margin: 2px;
-        padding: 5px;
+        padding: 5px 0 0 20px ;
         width: 100%;
         display: flex;
         align-items: center;
+		
 	}
 
 </style>
