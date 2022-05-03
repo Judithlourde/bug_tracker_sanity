@@ -14,16 +14,18 @@
 							id="title" 
 							name="title" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							
 							v-model="formData.title"
 						/>
+
+						<!-- @keyup.enter="handleChange" -->
 
 						<label for="description">Description</label>
 						<input 
 							id="description" 
 							name="description" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							
 							v-model="formData.description"
 						/>
 
@@ -44,7 +46,7 @@
 							id="new-team" 
 							name="team" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							 
 							v-model="formData.team"
 						>
 
@@ -54,8 +56,8 @@
 								id="priority-1"
 								name="priority"
 								type="radio"
-								@keyup.enter="handleChange"
-								value="1"
+								
+								:value=1
 								v-model="formData.priority"
 							> 
 							<label for="priority-1">1</label>
@@ -64,8 +66,8 @@
 								id="priority-2"
 								name="priority"
 								type="radio"
-								@keyup.enter="handleChange"
-								value="2"
+								
+								:value=2
 								v-model="formData.priority"
 							> 
 							<label for="priority-2">2</label>
@@ -74,8 +76,8 @@
 								id="priority-3"
 								name="priority"
 								type="radio"
-								@keyup.enter="handleChange"
-								value="3"
+								
+								:value=3
 								v-model="formData.priority"
 							> 
 							<label for="priority-3">3</label>
@@ -84,8 +86,8 @@
 								id="priority-4"
 								name="priority"
 								type="radio"
-								@keyup.enter="handleChange"
-								value="4"
+								
+								:value=4
 								v-model="formData.priority"
 							> 
 							<label for="priority-4">4</label>
@@ -94,8 +96,8 @@
 								id="priority-5"
 								name="priority"
 								type="radio"
-								@keyup.enter="handleChange"
-								value="5"
+								
+								:value=5
 								v-model="formData.priority"
 							> 
 							<label for="priority-5">5</label>
@@ -108,17 +110,16 @@
 								type="range"
 								id="progress"
 								name="progress"
-								value="formData.progress"
-								min="0"
-								max="100"
-								@keyup.enter="handleChange"
+								:value="formData.progress"
+								min=0
+								max=100
 							>
 							
 							<label for="status">Status</label>
 							<select 
 								id="status"
 								name="status" 
-								@keyup.enter="handleChange"
+								
 								v-model="formData.status"
 							
 							>
@@ -134,12 +135,12 @@
 					</section>
 
 					<section>
-						<label for="owner">Reporter</label>
+						<label for="reporter">Reporter</label>
 						<input 
 							id="reporter" 
 							name="reporter" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							 
 							v-model="formData.reporter"
 						>
 
@@ -148,7 +149,7 @@
 							id="reporterImage" 
 							name="reporterImage" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							 
 							v-model="formData.reporterImage"
 						>
 
@@ -161,7 +162,7 @@
 							id="assignee" 
 							name="assignee" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							 
 							v-model="formData.assignee"
 						>
 
@@ -170,7 +171,7 @@
 							id="assigneeImage" 
 							name="assigneeImage" 
 							type="text" 
-							@keyup.enter="handleChange" 
+							 
 							v-model="formData.assigneeImage"
 						>
 
@@ -197,9 +198,13 @@
 			return {
 				editMode: false,
 				formData: {
+					title:'',
+					description: '',
+					priority: 0,
 					status: 'not started',
 					progress: 0,
 					timestamp: new Date().toISOString(),
+					team: '',
 				},
 				teams:[]
 			}
@@ -228,7 +233,17 @@
 		methods: {
 			handleSubmit() {
 				console.log('submitted')
-				console.log(this.teams)
+				sanity.create({
+					_type: 'bug',
+					title: this.formData.title,
+					description: this.formData.description,
+					priority: this.formData.priority,
+					status: this.formData.status,
+					progress: this.formData.progress,
+					submitDate: this.formData.timestamp,
+					team: this.formData.team,
+
+				});
 			},
 
 			handleChange() {
@@ -245,6 +260,27 @@
 				this.teams = [ ...new Set(this.result.map(({ team }) => team.name)) ];  // Change this.tickets to tickets? after getting data from database
 				console.log(this.uniqueTeams)
 			},
+
+			// patchProject() {
+			// 	/* bare hvis withCredentials: true! */
+
+			// 	sanity
+			// 		.patch('a99b7992-0974-4a7e-8ddb-6891f7a6776a')
+			// 		.set({ year: 2022 })
+			// 		.commit()
+			// 		.then(updatedDocument => {
+			// 			console.log('I just updated document:', updatedDocument);
+			// 		});
+			// },
+
+			// createProject() {
+			// 	/* bare hvis withCredentials: true! */
+
+			// 	sanity.create({
+			// 		_type: 'project',
+			// 		title: 'NEW PROJECT!!!',
+			// 	});
+			// },
 			
 		}
 	}
