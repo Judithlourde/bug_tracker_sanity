@@ -40,11 +40,26 @@ export default {
 			type: 'reference',
 			to: [{ type: 'person' }]
 		},
+		// {
+		// 	title: 'Priority',
+		// 	name: 'priority',
+		// 	type: 'number'
+		// },
 		{
-			title: 'Priority',
-			name: 'priority',
-			type: 'number'
-		},
+            
+            title: 'Priority',
+            name: 'priority',
+            type: 'string',
+            options: {
+                list: [
+                    {title: 'Major', value: 'major'},           
+                    {title: 'Low', value: 'low'},
+                    {title: 'Critical', value: 'critical'},
+                ],
+                layout: 'radio'
+            },
+            validation: (Rule) => Rule.required()
+        },
 		{
             
             title: 'Status',
