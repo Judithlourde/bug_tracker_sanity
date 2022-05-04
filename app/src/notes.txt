@@ -33,3 +33,60 @@ tickets: [
                 timestamp: '2022-04-21T07:36:17+0000'
             },
         ],
+
+<!-- <div class="ticket__container-multiple-input-container">
+    <input id="priority-1" name="priority" type="radio"	:value=1 v-model="formData.priority"> 
+    <label for="priority-1">1</label>
+
+    <input id="priority-2" name="priority" type="radio"	:value=2 v-model="formData.priority"> 
+    <label for="priority-2">2</label>
+
+    <input id="priority-3" name="priority" type="radio"	:value=3 v-model="formData.priority"> 
+    <label for="priority-3">3</label>
+
+    <input id="priority-4" name="priority" type="radio" :value=4 v-model="formData.priority"> 
+    <label for="priority-4">4</label>
+
+    <input id="priority-5" name="priority" type="radio" :value=5 v-model="formData.priority"> 
+    <label for="priority-5">5</label>
+</div> -->
+
+<!-- <div v-if="editMode"> -->
+
+// patchProject() {
+// 	/* bare hvis withCredentials: true! */
+
+// 	sanity
+// 		.patch('a99b7992-0974-4a7e-8ddb-6891f7a6776a')
+// 		.set({ year: 2022 })
+// 		.commit()
+// 		.then(updatedDocument => {
+// 			console.log('I just updated document:', updatedDocument);
+// 		});
+// },
+
+// createProject() {
+// 	/* bare hvis withCredentials: true! */
+
+// 	sanity.create({
+// 		_type: 'project',
+// 		title: 'NEW PROJECT!!!',
+// 	});
+// },
+// createTeam(newTeam) {
+
+// 	// sjekker om eksistere team
+// 	const teams = sanity.getItem('team');
+// 	const checkExistingTeam = teams.includes(newTeam);
+// 	// hvis eksistere return med en gang
+// 	if(checkExistingTeam) {
+// 		return newTeam;
+// 	} else {
+// 		sanity.create('team', newTeam)
+// 	}
+// 	// hvis ikke eksistere
+// 	// lager vi ny team i referanse felt
+// 	// så returnere vi ny referanse
+
+// 	return newTeam;
+// },
