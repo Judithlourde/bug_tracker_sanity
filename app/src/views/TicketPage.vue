@@ -5,9 +5,9 @@
 		<div class="ticket">
 			<h1 v-if="!editMode">Create a Ticket</h1>
 			<h1 v-else>Update your Ticket</h1>
-
+			
 			<div class="ticket__container">
-				<form @submit.prevent="handleSubmit">
+				<form>
 					<section>
 						<label for="title">Title</label>
 						<input id="title" name="title" type="text" 	v-model="formData.title"/>
@@ -15,13 +15,13 @@
 						<label for="description">Description</label> 
                     	<textarea id="description" name="description" rows="3" cols="20" type="text" v-model="formData.description"></textarea>
 
-						<label for="team">Team</label>
-						<select id="team" name="team" v-model="formData.team">
-							<option v-for="team in teams" :key="team.id" :value="team">{{ team }}</option>
-						</select>
+						<!-- <label for="team">Team</label>
+						<select v-bind="getTeamId()" id="team" name="team" v-model="formData.team">
+							<option v-for="team in uniqueTeams" :key="team.id" :value="team">{{ team }}</option>
+						</select> -->
 
 						<label for="new-team">New Team</label>
-						<input id="new-team" name="team" type="text" v-model="formData.team">
+						<input id="new-team" name="newTeam" type="text" v-model="formData.newTeam">
 
 						<label for="priority">Priority</label>
 						<select id="priority" name="priority" v-model="formData.priority">
@@ -32,7 +32,7 @@
 
 						<div>
 							<label for="progress">Progress</label>
-							<input type="range" id="progress" name="progress" v-model="formData.progress" min="0" max="100">
+							<input type="range" id="progress" name="progress" v-model.number="formData.progress" min="0" max=100>
 							
 							<label for="status">Status</label>
 							<select id="status" name="status" v-model="formData.status">
@@ -43,7 +43,7 @@
 							</select>
 						</div>
 
-						<input type="submit">
+						<input type="submit" @click.prevent="handleSubmit">
 					</section>
 
 					<section>
@@ -68,7 +68,7 @@
 						</div> -->
 
 						<label for="submitDate">Submit Date:</label>
-  						<input type="date" id="submitDate" name="submitDate" v-model="submitDate">
+  						<input type="date" id="submitDate" name="submitDate" v-model="formData.submitDate">
 					</section>
 				</form>
 			</div>
@@ -92,15 +92,19 @@
 					title:'',
 					description: '',
 					priority: '',
-					status: 'not started',
-					progress: 50,
-					// timestamp: new Date().toISOString(),
+					status: '',
+					progress: 0,
 					submitDate: '',
 					team: '',
-					value: 10,
+					newTeam: '',
+					reporter: '',
+					assignee: '',
 				},
-				teams:[],
-				id: '',
+				teams: [],
+				uniqueTeams: [],
+				teamID: '',
+				reporterID: '',
+				assigneeID: '',
 			}
 		},
 
@@ -109,72 +113,67 @@
 				documentType: 'bug' 
 			});
 
-			this.uniqueTickets();
+			this.existingteams();
+			this.existingUniqueTeams();
 		},
 
 		methods: {
-				handleSubmit() {
-					console.log('submitted')
-					sanity.create({
-						_type: 'bug',
-						// _id: 'my id',
-						title: this.formData.title,
-						description: this.formData.description,
-						priority: this.formData.priority,
-						status: this.formData.status,
-						progress: this.formData.progress,
-						submitDate: this.formData.submitDate,
-						// team: this.createTeam(this.id),
-					}).then((res) => {
-  						console.log(`Bike was created, document ID is ${res._id}`)
-						this.createTeam(res._id)
-					})
-					console.log(this.formData.team)
+			handleSubmit() {		
+				const team = {
+					_type: 'team',
+					name: this.formData.newTeam,
+				}
+				sanity.create(team).then((res) => {
+					this.teamID = res._id;
 
-				},
+					const reporter = {
+						_type: 'person',
+						name: this.formData.reporter,
+					}
+					sanity.create(reporter).then((res) => {
+						this.reporterID = res._id;
 
-				createTeam(id) {
-					const doc = {
-						_id: 'id',
-						_type: 'team',
-						name: 'Sanity Tandem Extraordinaire',
-						// seats: 2,
+						const assignee = {
+						_type: 'person',
+						name: this.formData.assignee,
 						}
-
-						sanity.createIfNotExists(doc).then((res) => {
-						console.log('Bike was created (or was already present)')
-					})
-				},
-
-				
-			
-
-			// createTeam(newTeam) {
-
-			// 	// sjekker om eksistere team
-			// 	const teams = sanity.getItem('team');
-			// 	const checkExistingTeam = teams.includes(newTeam);
-			// 	// hvis eksistere return med en gang
-			// 	if(checkExistingTeam) {
-			// 		return newTeam;
-			// 	} else {
-			// 		sanity.create('team', newTeam)
-			// 	}
-			// 	// hvis ikke eksistere
-			// 	// lager vi ny team i referanse felt
-			// 	// så returnere vi ny referanse
-
-			// 	return newTeam;
-			// },
-
-			
-
-			uniqueTickets() {
-				// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-				this.teams = [ ...new Set(this.result.map(({ team }) => team.name)) ];  // Change this.tickets to tickets? after getting data from database
-				console.log(this.uniqueTeams)
+						sanity.create(assignee).then((res) => {
+							this.assigneeID = res._id;
+							this.createBug();
+						});
+					});
+				});			
 			},
-		}
+
+			createBug() {
+				sanity.create({
+					_type: 'bug',
+					title: this.formData.title,
+					description: this.formData.description,
+					priority: this.formData.priority,
+					status: this.formData.status,
+					progress: this.formData.progress,
+					submitDate: this.formData.submitDate,
+					team: {
+						_type: 'reference',
+						_ref: this.teamID,
+					},
+					reporter: {
+						_type: 'reference',
+						_ref: this.reporterID,
+					},
+					assignee: {
+						_type: 'reference',
+						_ref: this.assigneeID,
+					}
+				})
+				
+				.then(result => {
+					console.log(`Created book with id: ${result._id}`)
+					console.log(typeof(this.formData.progress));
+				});
+			},
+		},
 	}
 </script>
 
