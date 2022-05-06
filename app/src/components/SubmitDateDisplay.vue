@@ -1,5 +1,7 @@
 <template>
-    <div class="submitDateDisplay-container">{{ submitDate }}</div>
+    <div v-if="submitDate" class="submitDateDisplay-container">{{ submitDate }}
+        <div v-if="!submitDate">Date</div>
+    </div>
 </template>
 
 <script>
