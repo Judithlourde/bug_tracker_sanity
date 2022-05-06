@@ -79,7 +79,7 @@
 		methods: {
 			uniqueTickets() {
 				// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-				this.uniqueTeams = [ ...new Set(this.result.map(({ team }) => team.name)) ];  // Change this.tickets to tickets? after getting data from database
+				this.uniqueTeams = [ ...new Set(this.result.map(({ team }) => team.name)) ]; 
 				console.log(this.uniqueTeams)
 			},
 			
