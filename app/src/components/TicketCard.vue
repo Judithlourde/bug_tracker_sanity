@@ -4,7 +4,7 @@
             <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
             <div class="ticketCard__title">{{ filteredTicket.title }}</div>
             <TicketOwnerDisplay 
-                :ticket-owner = filteredTicket.reporter.image.asset.url
+                :ticket-owner = filteredTicket.name
             />
             <StatusDisplay 
                 :bug-status = filteredTicket.status 
@@ -13,7 +13,7 @@
                 :priority = filteredTicket.priority
             />
             <AssigneeDisplay 
-                :assignee = filteredTicket.assignee.image.asset.url
+                :assignee = filteredTicket.name
             />
             <ProgressDisplay 
                 :progress = filteredTicket.progress
