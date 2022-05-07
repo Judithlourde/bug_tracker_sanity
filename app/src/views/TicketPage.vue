@@ -1,27 +1,26 @@
 <template>
 	<section>
-		<!-- <div v-if="loading">...</div> -->
-		<!-- <div v-else class="ticket"> -->
-		<div class="ticket">
-			<h1 v-if="!editMode">Create a Ticket</h1>
+		<div v-if="loading">...</div> 
+		<div v-else class="ticket"> 
+			<h1 v-if="!editMode">Create a Ticket for bug</h1>
 			<h1 v-else>Update your Ticket</h1>
 			
 			<div class="ticket__container">
 				<form>
 					<section>
 						<label for="title">Title</label>
-						<input id="title" name="title" type="text" 	v-model="formData.title"/>
+						<input id="title" name="title" type="text" v-model="formData.title"/>
 
 						<label for="description">Description</label> 
                     	<textarea id="description" name="description" rows="3" cols="20" type="text" v-model="formData.description"></textarea>
 
-						<!-- <label for="team">Team</label>
-						<select v-bind="getTeamId()" id="team" name="team" v-model="formData.team">
-							<option v-for="team in uniqueTeams" :key="team.id" :value="team">{{ team }}</option>
-						</select> -->
+						<label for="team">Team</label>
+						<select id="team" name="team" v-model="formData.team">
+							<option v-for="team in result" :key="team._id" :value="team.name">{{ `${team.name}` }}</option>
+						</select>
 
 						<label for="new-team">New Team</label>
-						<input id="new-team" name="newTeam" type="text" v-model="formData.newTeam">
+						<input id="new-team" name="new-team" type="text" v-model="formData.team">
 
 						<label for="priority">Priority</label>
 						<select id="priority" name="priority" v-model="formData.priority">
@@ -72,15 +71,13 @@
 					</section>
 				</form>
 			</div>
-		</div>
-		
+		</div>	
 	</section>
 </template>
 
 <script> 
 	import sanity from '../sanity.js';
-	import query from '../groq/dashboard.groq?raw';
-	// import query from '../groq/ticketPage.groq?raw';
+	import query from '../groq/team.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	export default {
 		mixins: [viewMixin],
@@ -96,12 +93,9 @@
 					progress: 0,
 					submitDate: '',
 					team: '',
-					newTeam: '',
 					reporter: '',
 					assignee: '',
 				},
-				teams: [],
-				uniqueTeams: [],
 				teamID: '',
 				reporterID: '',
 				assigneeID: '',
@@ -110,39 +104,67 @@
 
 		async created() {
 			await this.sanityFetch(query, { 
-				documentType: 'bug' 
+				type: 'team' 
 			});
-
-			this.existingteams();
-			this.existingUniqueTeams();
 		},
 
 		methods: {
-			handleSubmit() {		
-				const team = {
-					_type: 'team',
-					name: this.formData.newTeam,
-				}
-				sanity.create(team).then((res) => {
-					this.teamID = res._id;
-
-					const reporter = {
-						_type: 'person',
-						name: this.formData.reporter,
+			handleSubmit() {
+				this.teamID = this.result.find(team => team.name === this.formData.team );
+				const teamIndex = this.result.findIndex(team => team.name === this.formData.team)
+				if(teamIndex === 1) {
+					const team = {
+						_id: this.teamID._id,
+						_type: 'team',
+						name: this.formData.team,
 					}
-					sanity.create(reporter).then((res) => {
-						this.reporterID = res._id;
+					sanity.createIfNotExists(team).then((res) => {
+						this.teamID = res._id;
 
-						const assignee = {
-						_type: 'person',
-						name: this.formData.assignee,
+						const reporter = {
+							_type: 'person',
+							name: this.formData.reporter,
 						}
-						sanity.create(assignee).then((res) => {
-							this.assigneeID = res._id;
-							this.createBug();
+						sanity.create(reporter).then((res) => {
+							this.reporterID = res._id;
+
+							const assignee = {
+							_type: 'person',
+							name: this.formData.assignee,
+							}
+							sanity.create(assignee).then((res) => {
+								this.assigneeID = res._id;
+								this.createBug();
+							});
 						});
-					});
-				});			
+					});		
+				} else {
+					const team = {
+						_type: 'team',
+						name: this.formData.team,
+					}
+					sanity.create(team).then((res) => {
+						this.teamID = res._id;
+
+						const reporter = {
+							_type: 'person',
+							name: this.formData.reporter,
+						}
+						sanity.create(reporter).then((res) => {
+							this.reporterID = res._id;
+
+							const assignee = {
+							_type: 'person',
+							name: this.formData.assignee,
+							}
+							sanity.create(assignee).then((res) => {
+								this.assigneeID = res._id;
+								this.createBug();
+							});
+						});
+					});		
+				}
+					
 			},
 
 			createBug() {
@@ -170,7 +192,6 @@
 				
 				.then(result => {
 					console.log(`Created book with id: ${result._id}`)
-					console.log(typeof(this.formData.progress));
 				});
 			},
 		},
