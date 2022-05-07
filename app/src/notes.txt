@@ -57,24 +57,6 @@
 
 // timestamp: new Date().toISOString(),
 
-existingteams() {
-    // Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-    this.teams = [ ...new Set(this.result.map(({ team }) => team)) ]; 
-    console.log(this.teams)
-},
-
-existingUniqueTeams() {
-    this.uniqueTeams = [ ...new Set(this.teams.map(team => team.name)) ];
-    console.log(this.uniqueTeams)
-},
-
-// getTeamId() {
-// 	this.teamID = this.teams.find(team =>{
-// 		return team.name === this.formData.team
-// 	});
-// 	console.log(this.teamID)
-// }
-
 		// handleSubmit() {		
 			// 	sanity.create({
 			// 		_type: 'bug',
@@ -133,3 +115,20 @@ existingUniqueTeams() {
 			// 		this.assigneeID = res._id;
 			// 	});
 			// },
+				// existingteams() {
+			// 	// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
+			// 	this.teams = [ ...new Set(this.result.map(({ team }) => team.name)) ]; 
+			// 	console.log(this.teams)
+			// },
+
+			// // existingUniqueTeams() {
+			// // 	this.uniqueTeams = [ ...new Set(this.teams.map(({ team }) => team.name)) ];
+			// // 	console.log(this.uniqueTeams)
+			// // },
+
+			// getTeamId() {
+			// 	this.teamtest = this.result.find(team =>{
+			// 		team.name === this.teamName
+			// 	});
+			// 	console.log(this.teamtest)
+			// }
