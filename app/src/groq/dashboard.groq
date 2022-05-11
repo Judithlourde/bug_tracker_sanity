@@ -1,4 +1,4 @@
-*[_type == $documentType] | order(date asc) {
+*[_type == $documentType]  | order(date asc) {
     ...,
     assignee-> {
         name,
@@ -13,17 +13,27 @@
     reporter-> {
         name,
         image {
-        asset-> { 
-            url 
-        },
+            asset-> { 
+                url 
+            },
         caption, 
         } 
     },
 
-    team-> { 
+    project-> {
         _id,
-        name
-    }
+        name,
+        slug,
+        projectMembers[]-> {
+            name,
+            image {
+                asset-> {
+                    url
+                }
+            }
+        }, 
+    } 
+
 }
 
  
