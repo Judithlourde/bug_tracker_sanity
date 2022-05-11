@@ -132,3 +132,30 @@
 			// 	});
 			// 	console.log(this.teamtest)
 			// }
+*[_type == $documentType] | order(date asc) {
+    ...,
+    assignee-> {
+        name,
+        image {
+            asset-> { 
+                url 
+            },
+            caption,
+        },
+    },
+    
+    reporter-> {
+        name,
+        image {
+        asset-> { 
+            url 
+        },
+        caption, 
+        } 
+    },
+
+    team-> { 
+        _id,
+        name
+    }
+}
