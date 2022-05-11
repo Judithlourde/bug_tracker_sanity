@@ -85,7 +85,7 @@ export default {
 			title: 'Project',
 			name: 'project',
 			type: 'reference',
-    		to: [{ type: 'project' }]
+			to: [{ type: 'project' }]
 		},
 	]
 }
