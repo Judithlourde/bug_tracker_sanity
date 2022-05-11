@@ -23,28 +23,22 @@ export default {
 			type: 'text'
 		},
 		{
-			title: 'Team',
-			name: 'team',
-			type: 'reference',
-    		to: [{ type: 'team' }]
+			title: 'Screen Shot',
+			name: 'screenshot',
+			type: 'image',
 		},
 		{
 			title: 'Reporter',
 			name: 'reporter',
 			type: 'reference',
-			to: [{ type: 'person' }]
+			to: [{ type: 'employee' }]
 		},
 		{
 			title: 'Assignee',
 			name: 'assignee',
 			type: 'reference',
-			to: [{ type: 'person' }]
+			to: [{ type: 'employee' }]
 		},
-		// {
-		// 	title: 'Priority',
-		// 	name: 'priority',
-		// 	type: 'number'
-		// },
 		{
             
             title: 'Priority',
@@ -52,7 +46,8 @@ export default {
             type: 'string',
             options: {
                 list: [
-                    {title: 'Major', value: 'major'},           
+                    {title: 'High', value: 'high'},
+					{title: 'Medium', value: 'medium'},           
                     {title: 'Low', value: 'low'},
                     {title: 'Critical', value: 'critical'},
                 ],
@@ -82,9 +77,15 @@ export default {
 			type: 'number'
 		},
 		{
-			title: 'Submit Date',
-			name: 'submitDate',
+			title: 'Due Date',
+			name: 'dueDate',
 			type: 'date'
+		},
+		{
+			title: 'Project',
+			name: 'project',
+			type: 'reference',
+    		to: [{ type: 'project' }]
 		},
 	]
 }
