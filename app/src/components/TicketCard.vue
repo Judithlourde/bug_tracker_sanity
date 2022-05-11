@@ -2,24 +2,24 @@
     <div class="ticketCard">
         <router-link :to="{ name: 'ticket' }">
             <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
-            <div class="ticketCard__title">{{ filteredTicket.title }}</div>
+            <div class="ticketCard__title">{{ filteredBug.title }}</div>
             <TicketOwnerDisplay 
-                :ticket-owner = filteredTicket.name
+                :ticket-owner = filteredBug.reporter.image.asset.url
             />
             <StatusDisplay 
-                :bug-status = filteredTicket.status 
+                :bug-status = filteredBug.status 
             />
             <PriorityDisplay 
-                :priority = filteredTicket.priority
+                :priority = filteredBug.priority
             />
             <AssigneeDisplay 
-                :assignee = filteredTicket.name
+                :assignee = filteredBug.assignee.image.asset.url
             />
             <ProgressDisplay 
-                :progress = filteredTicket.progress
+                :progress = filteredBug.progress
             />
-            <SubmitDateDisplay
-                :submitDate = filteredTicket.submitDate
+            <DueDateDisplay
+                :dueDate = filteredBug.dueDate
             />
         </router-link>
 
@@ -33,12 +33,12 @@
     import PriorityDisplay from './PriorityDisplay.vue'
     import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
-    import SubmitDateDisplay from './SubmitDateDisplay.vue'
+    import DueDateDisplay from './DueDateDisplay.vue'
     import DeleteBlock from './DeleteBlock.vue'
 
     export default {
         props: {
-            filteredTicket: { Object },
+            filteredBug: { Object },
             color: { String }
         },
         components: {
@@ -47,7 +47,7 @@
             PriorityDisplay,
             AssigneeDisplay,
             ProgressDisplay,
-            SubmitDateDisplay,
+            DueDateDisplay,
             DeleteBlock
         },     
     }
