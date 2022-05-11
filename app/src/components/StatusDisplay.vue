@@ -1,5 +1,6 @@
 <template>
-    <div class="status-container" :style="{backgroundColor: color}">{{ bugStatus }}</div>
+    <div v-if="bugStatus" class="status-container" :style="{backgroundColor: color}">{{ bugStatus }}</div>
+    <div v-else></div>
 </template>
 
 <script>
