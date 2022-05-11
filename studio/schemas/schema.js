@@ -4,7 +4,8 @@ import schemaTypes from 'all:part:@sanity/base/schema-type'
 /* documents */
 import bug from './documents/bug.js'
 import team from './documents/team.js'
-import person from './documents/person.js'
+import employee from './documents/employee.js'
+import project from './documents/project.js'
 
 /* types */
 import imageCaption from './types/imageCaption.js'
@@ -15,7 +16,8 @@ export default createSchema({
 	types: schemaTypes.concat([
 		bug,
 		team,
-		person,	
+		employee,
+		project,	
 		imageCaption,	
 	]),
 })
