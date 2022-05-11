@@ -1,17 +1,15 @@
 <template>
-	<nav>
+	<nav class="navigation">
 		<div class="logo-container">
-			<img src="/images/monday_logo_icon.png" alt="Logo for the friday.com">
+			<router-link :to="{ name:'dashboard' }">
+				<img src="/svg/bugsTracker-logo.svg" alt="Logo for the friday.com">
+			</router-link>
 		</div>
+		
 		<div class="controls-container">
 			<div class="icon" >
 				<router-link :to="{ name:'ticket' }">
 					<img src="/svg/plus-icon.svg" alt="plus icon for make tickets">
-				</router-link>
-			</div>
-			<div class="icon">
-				<router-link :to="{ name:'dashboard' }">
-					<img src="/svg/back-arrow.svg" alt="arrow icon for going back to dashboard">
 				</router-link>
 			</div>
 		</div>
@@ -20,7 +18,7 @@
 </template>
 
 <style>
-	nav {
+	.navigation {
 		height: 100vh;
 		/* width: 40%; */
 		background-color: #292F4C;
