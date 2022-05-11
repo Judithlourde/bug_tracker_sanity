@@ -1,29 +1,34 @@
 <template>
     <div class="ticketCard">
-        <router-link :to="{ name: 'ticket' }">
+        <div>
             <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
-            <div class="ticketCard__title">{{ filteredBug.title }}</div>
+            <router-link class="ticketCard__title" :to="{ name: 'ticket' }">{{ filteredBug.title }}</router-link>
+
             <TicketOwnerDisplay 
                 :ticket-owner = filteredBug.reporter.image.asset.url
             />
+            
             <StatusDisplay 
                 :bug-status = filteredBug.status 
             />
+
             <PriorityDisplay 
                 :priority = filteredBug.priority
             />
+
             <AssigneeDisplay 
                 :assignee = filteredBug.assignee.image.asset.url
             />
+
             <ProgressDisplay 
                 :progress = filteredBug.progress
             />
+
             <DueDateDisplay
                 :dueDate = filteredBug.dueDate
             />
-        </router-link>
-
-        <DeleteBlock />
+        </div>
+        <!-- <DeleteBlock /> -->
     </div>
 </template>
 
@@ -34,7 +39,7 @@
     import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
     import DueDateDisplay from './DueDateDisplay.vue'
-    import DeleteBlock from './DeleteBlock.vue'
+    // import DeleteBlock from './DeleteBlock.vue'
 
     export default {
         props: {
@@ -48,7 +53,7 @@
             AssigneeDisplay,
             ProgressDisplay,
             DueDateDisplay,
-            DeleteBlock
+            // DeleteBlock
         },     
     }
 </script>
@@ -64,23 +69,23 @@
         /* overflow: scroll; */
     }
 
-    .ticketCard a {
+    .ticketCard > div {
         width: 100%;
         display: flex;
-        color: inherit;
-        text-decoration: none;  
     }
 
-    .ticketCard a > * {
+    .ticketCard > div > * {
         background-color: rgb(245, 245, 245);
-        margin: 2px;
-        padding: 5px;
+        margin: 1px;
+        padding: 4px;
         width: 100%;
         display: flex;
         align-items: center;
     }
-    .ticketCard__title{
+    .ticketCard__title {
         font-size: 16px;
+        color: inherit;
+        text-decoration: none;       
     }
 
     .ticketCard__color {
