@@ -22,7 +22,7 @@ export default {
             title: 'Team members',
             name: 'teamMembers',
             type: 'reference',
-			to: [{ type: 'person' }],
+			to: [{ type: 'employee' }],
             description: 'Please enter your team name',
         },
     ]
