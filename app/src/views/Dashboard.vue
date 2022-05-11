@@ -14,7 +14,7 @@
 						<div>Priority</div>
 						<div>Assignee</div>
 						<div>Progress </div>
-						<div>SubmitDate</div>
+						<div>Submit Date</div>
 					</div>
 
 					<div v-for="bug in result.filter(bug => bug.team.name === uniqueTeam)" :key="bug.id">
