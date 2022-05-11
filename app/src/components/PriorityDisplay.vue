@@ -1,5 +1,6 @@
 <template>
-    <div class="priority-container" :style="{ backgroundColor: color }">{{ priority }}</div>
+    <div v-if="priority" class="priority-container" :style="{ backgroundColor: color }">{{ priority }}</div>
+    <div v-else></div>
     
         <!-- <div class="priority-container__stars"> -->
             <!-- Set the stars count depending upon the priority cont -->
