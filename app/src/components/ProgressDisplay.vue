@@ -1,7 +1,8 @@
 <template>
     <div class="progress-display">
         <div class="progress-display__progress-bar">
-            <div class="progress-display__progress-bar-indicator" :style="{ width: progress + '%' }"></div>
+            <div v-if="progress" class="progress-display__progress-bar-indicator" :style="{ width: progress + '%' }"></div>
+            <div v-else></div>
         </div>
     </div>
 </template>
