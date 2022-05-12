@@ -1,7 +1,36 @@
-*[slug.current == $slug][0] {
+*[slug.current == $slug] {
 	...,
+	assignee-> {
+        name,
+        image {
+            asset-> { 
+                url 
+            },
+            caption,
+        },
+    },
+    
+    reporter-> {
+        name,
+        image {
+            asset-> { 
+                url 
+            },
+        caption, 
+        } 
+    },
 
-	documentation[] {
-		..., asset->{ url }
-	}
+    project-> {
+        _id,
+        name,
+        slug,
+        projectMembers[]-> {
+            name,
+            image {
+                asset-> {
+                    url
+                }
+            }
+        }, 
+    } 
 }
