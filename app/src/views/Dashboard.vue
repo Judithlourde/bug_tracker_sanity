@@ -4,7 +4,7 @@
 		<div v-else class="dashboard">
 			<h1>Bugs Tracker</h1>
 			<div class="dashboard__project-container">
-				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject.id"> 
+				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> 
 
 					<div class="dashboard__project-container-title">
 						<div>
@@ -25,7 +25,7 @@
 						</div>	
 					</div>
 
-					<div v-for="bug in result.filter(bug => bug.project.name === uniqueProject)" :key="bug.id">
+					<div v-for="bug in result.filter(bug => bug.project.name === uniqueProject)" :key="bug._id">
 						<TicketCard 
 							:filteredBug="bug"
 							:color="this.colors[index] || this.colors[0]"
@@ -36,20 +36,19 @@
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
 							
-							<div>
-								<div class="edit">
-									<div v-if="!edit" @click="addNewBug()">+ Add bug</div>
-									
-									<div v-else>
-										<input type="text" v-model="formData.title" @keyup.enter="createBug(uniqueProject)" placeholder="+ Add Bug">
-										<div>Add</div>
-									</div>
-								</div>
+							<div class="edit">
+								<!-- <div v-if="!edit" @click="addNewBug(uniqueProject)">+ Add bug</div>
+
+								<div v-else> -->
+									<input type="text" v-model="formData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
+									<!-- <div @click="createBug(uniqueProject, index)">Add</div> -->
+								<!-- </div> -->
 							</div>
-							<div>Reporter</div> 
-							<div>Status</div>	
-							<div>Priority</div>
-							<div>Assignee</div>
+							
+							<div></div> 
+							<div></div>	
+							<div></div>
+							<div></div>
 
 							<div class="progress-display">
 								<div>
@@ -57,7 +56,7 @@
         						</div>
 							</div>
 							
-							<div>Due Date</div>
+							<div></div>
 						</div>
 					</div>
 				</div> 
@@ -73,6 +72,7 @@
 <script>
 	import sanity from '../sanity.js';
 	import query from '../groq/dashboard.groq?raw';
+	import projects from '../groq/project.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
 	// import TicketPage from '../views/TicketPage.vue';
@@ -82,17 +82,10 @@
 			return {
 				uniqueProjects:[],
 				edit: false,
-				formData: {
-					title:'',
-					description: '',
-					priority: '',
-					status: '',
-					progress: 0,
-					submitDate: '',
-					team: '',
-					reporter: '',
-					assignee: '',
-				},
+				formData: [],
+				// formData: {
+				// 	title:'',
+				// },
 				projectID: '',
 				// filteredTickets:[],
 				colors: [
@@ -107,59 +100,60 @@
 
 		async created() {
 			await this.sanityFetch(query, { 
-				documentType: 'bug' 
+				documentType: 'bug'
 			});
+
+			await this.sanityFetchProject(projects, { 
+				type: 'project'
+			});
+
+			console.log(this.result)
 
 			this.metaTags({
 				title: 'Bugs Tracker',
 			})
-			this.projects();
+			this.filteredProjects();
 		},
+
+		// watch: {
+		// 	filteredProjects();
+		// },
 		
 		components: {
 			TicketCard,
 		},
 
+		computed: {
+			
+		},
+
 		methods: {
-			projects() {
+			filteredProjects() {
 				// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
 				this.uniqueProjects = [ ...new Set(this.result.map(({ project }) => project.name)) ]; 
 				console.log(this.uniqueProjects)
 			},	
 
-			addNewBug() {
+			addNewBug(uniqueProject) {
 				this.edit = !this.edit;
 			},
 
-			createBug(uniqueProject) {
-				consolo.log(uniqueProject)
-				this.projectID = this.result.find(project => project.name === uniqueProject );
-				const project = {
-						_id: this.projectID._id,
-						_type: 'project',
-						name: uniqueProject,
-					}
-				sanity.createIfNotExists(project).then((res) => {
-					this.projectID = res._id;
-					this.test();
-				});
-			},
-
-			test() {
+			createBug(uniqueProject, index) {
+				this.projectID = this.projectsResult.find(project => project.name === uniqueProject );
+				console.log(this.projectID._id)
 				sanity.create({
 					_type: 'bug',
-					title: this.formData.title,
+					title: this.formData[index],
 					project: {
 						_type: 'reference',
 						_ref: this.projectID._id,
 					}
 				})
 				
-				.then(result => {
-					console.log(`Created book with id: ${result._id}`)
+				.then(res => {
+					console.log(`Created book with id: ${res._id}`)
 				});
-			}
-		
+			},
 		},	
 	}
 	
@@ -207,5 +201,9 @@
 
 	.dashboard__project-container-newBug div > * {
 		padding: 8px;
+	}
+
+	.edit input {
+		border: none;
 	}
 </style>
