@@ -2,10 +2,10 @@
     <div class="ticketCard">
         <div>
             <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
-            <router-link class="ticketCard__title" :to="{ name: 'ticket' }">{{ filteredBug.title }}</router-link>
+            <router-link class="ticketCard__title"  :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">{{ filteredBug.title }}</router-link>
 
             <TicketOwnerDisplay 
-                :ticket-owner = filteredBug.reporter.image.asset.url
+                :ticket-owner = filteredBug.reporter
             />
             
             <StatusDisplay 
@@ -17,7 +17,7 @@
             />
 
             <AssigneeDisplay 
-                :assignee = filteredBug.assignee.image.asset.url
+                :assignee = filteredBug.assignee
             />
 
             <ProgressDisplay 
