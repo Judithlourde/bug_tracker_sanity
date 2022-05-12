@@ -1,4 +1,4 @@
-*[_type == $documentType]  | order(date asc) {
+*[_type == $documentType]  | order(_createdAt asc) {
     ...,
     assignee-> {
         name,
