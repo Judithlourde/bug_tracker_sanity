@@ -1,0 +1,215 @@
+<template>
+	<section>
+		<div v-if="loading">...</div> 
+		<div v-else class="ticket" v-for="bug in result" :key="bug._id"> 
+			<h1>{{ bug.title }}</h1>
+			
+			<div class="ticket__container">
+				<form>
+					<section>
+                        <label for="reporter">Reporter</label>
+                        <input id="reporter" name="reporter" type="text" v-model="bug.reporter.name">
+
+                        <label for="assignee">Assignee</label>
+                        <select id="assignee" name="assignee">
+							<option v-for="assignee in bug.project.projectMembers" :key="assignee._id" :value="assignee.name">{{ `${assignee.name}` }}</option>
+						</select>
+
+                        <label for="dueDate">Due Date:</label>
+                        <input type="date" id="dueDate" name="dueDate" v-model="formData.dueDate">
+
+                        <label for="description">Description</label> 
+                    	<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bug.description"></textarea>
+
+                        <label for="screenshot">Screenshot</label>
+                        <input type="text" id="screenshot" name="screenshot" v-model="formData.screenshot">
+
+						<label for="priority">Priority</label>
+						<select id="priority" name="priority" v-model="bug.priority">
+							<option value="major">Major</option>
+							<option value="low">Low</option>
+							<option value="critical">Critical</option>
+						</select>
+
+						<div>
+							<label for="progress">Progress</label>
+							<input type="range" id="progress" name="progress" v-model.number="formData.progress" min="0" max=100>
+							
+							<label for="status">Status</label>
+							<select id="status" name="status" v-model="bug.status">
+								<option value="not started">Not started yet</option>
+								<option value="working on it">Working on it</option>
+								<option value="stuck">Stuck</option>
+								<option value="done">Done</option>
+							</select>
+						</div>
+                            
+                        <input type="submit" @click.prevent="handleSubmit">
+					</section>
+				</form>
+			</div>
+		</div>	
+	</section>
+</template>
+
+<script> 
+	import sanity from '../sanity.js';
+	import query from '../groq/ticketPage.groq?raw';
+	import viewMixin from '../mixins/viewMixin.js';
+	export default {
+		mixins: [viewMixin],
+
+		data() {
+			return {
+				formData: {
+					description: '',
+					priority: '',
+					status: '',
+					progress: 0,
+					dueDate: '',
+					reporter: '',
+					assignee: '',
+                    screenshot: ''
+				},
+				teamID: '',
+				reporterID: '',
+				assigneeID: '',
+			}
+		},
+
+		async created() {
+			await this.sanityFetch(query, { 
+				slug: this.$route.params.ticketSlug 
+			});
+		},
+
+		methods: {
+			handleSubmit() {
+				this.teamID = this.result.find(team => team.name === this.formData.team );
+				const teamIndex = this.result.findIndex(team => team.name === this.formData.team)
+				if(teamIndex === 1) {
+					const team = {
+						_id: this.teamID._id,
+						_type: 'team',
+						name: this.formData.team,
+					}
+					sanity.createIfNotExists(team).then((res) => {
+						this.teamID = res._id;
+
+						const reporter = {
+							_type: 'person',
+							name: this.formData.reporter,
+						}
+						sanity.create(reporter).then((res) => {
+							this.reporterID = res._id;
+
+							const assignee = {
+							_type: 'person',
+							name: this.formData.assignee,
+							}
+							sanity.create(assignee).then((res) => {
+								this.assigneeID = res._id;
+								this.createBug();
+							});
+						});
+					});		
+				} else {
+					const team = {
+						_type: 'team',
+						name: this.formData.team,
+					}
+					sanity.create(team).then((res) => {
+						this.teamID = res._id;
+
+						const reporter = {
+							_type: 'person',
+							name: this.formData.reporter,
+						}
+						sanity.create(reporter).then((res) => {
+							this.reporterID = res._id;
+
+							const assignee = {
+							_type: 'person',
+							name: this.formData.assignee,
+							}
+							sanity.create(assignee).then((res) => {
+								this.assigneeID = res._id;
+								this.createBug();
+							});
+						});
+					});		
+				}
+					
+			},
+
+			createBug() {
+				sanity.create({
+					_type: 'bug',
+					title: this.formData.title,
+					description: this.formData.description,
+					priority: this.formData.priority,
+					status: this.formData.status,
+					progress: this.formData.progress,
+					submitDate: this.formData.submitDate,
+					team: {
+						_type: 'reference',
+						_ref: this.teamID,
+					},
+					reporter: {
+						_type: 'reference',
+						_ref: this.reporterID,
+					},
+					assignee: {
+						_type: 'reference',
+						_ref: this.assigneeID,
+					}
+				})
+				
+				.then(result => {
+					console.log(`Created book with id: ${result._id}`)
+				});
+			},
+		},
+	}
+</script>
+
+<style>
+	.ticket {
+		padding: 30px;
+		width: 100%;
+	}
+
+	.ticket__container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.ticket__container form {
+		display: flex;
+	}
+
+	.ticket__container form section {
+		display: flex;
+		flex-direction: column;
+		margin: 10px;
+		width: 500px;
+	}
+
+	.ticket__container form label {
+		margin: 20px 0 0 0;	
+	}
+
+	.ticket__container form select,
+	.ticket__container form input {
+		padding: 10px;
+		font-size: 15px;
+		border-radius: 10px;
+		border: 1.5px solid rgb(218, 218, 218);
+		margin: 5px;
+	}
+
+	.ticket__container-multiple-input-container {
+		margin: 20px 0 20px 0;
+	}
+</style>
