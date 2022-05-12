@@ -4,7 +4,8 @@ export default {
 	data() {
 		return {
 			loading: true,
-			result: null
+			result: null,
+			projectsResult: null
 		}
 	},
 
@@ -13,6 +14,12 @@ export default {
 			this.result = await sanity.fetch(query, params);
 			this.loading = false;
 			console.log(this.result)
+		},
+
+		async sanityFetchProject(projects, params) {
+			this.projectsResult = await sanity.fetch(projects, params);
+			this.loading = false;
+			console.log(this.projectsResult)
 		},
 
 		metaTags(meta) {
