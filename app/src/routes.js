@@ -8,14 +8,14 @@ export default [
 	// 	component: ProjectPage 
 	// },
 	
+	// { 
+	// 	name: 'ticketID', 
+	// 	path: '/ticket/:ticketID',
+	// 	component: TicketPage 
+	// },
 	{ 
-		name: 'ticketID', 
-		path: '/ticket/:ticketID',
-		component: TicketPage 
-	},
-	{ 
-		name: 'ticket', 
-		path: '/ticket',
+		name: 'ticketPage', 
+		path: '/:ticketSlug',
 		component: TicketPage 
 	},
 	{ 
