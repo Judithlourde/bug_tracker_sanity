@@ -1,7 +1,7 @@
 <template>
     <div class="assigneeDisplay-container">
         <div class="assigneeDisplay-container__developer-image">
-            <img v-if="assignee" :src="assignee" alt="">
+            <img v-if="assignee" :src="assignee.image.asset.url" alt="">
             <img v-else src="/images/employee-placeholder.png" alt="emloyee placeholder image">
         </div>
         
@@ -11,7 +11,7 @@
 <script>
     export default {
         props: {
-            assignee: { String }
+            assignee: { Object }
         }
     }
 </script>
