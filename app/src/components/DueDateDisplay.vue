@@ -1,7 +1,6 @@
 <template>
-    <div v-if="dueDate" class="dueDateDisplay-container">{{ dueDate }}
-        <div v-if="!dueDate">Date</div>
-    </div>
+    <div v-if="dueDate" class="dueDateDisplay-container">{{ dueDate }}</div>
+    <div v-else></div>
 </template>
 
 <script>
