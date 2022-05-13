@@ -14,7 +14,10 @@ export default {
 			type: 'slug',
 			options: {
 				source: 'title',
-				maxLength: 100
+				slugify: input => input
+									.toLowerCase()
+									.replace(/\s+/g, '-')
+									.slice(0, 200)
 			}
 		},
 		{
