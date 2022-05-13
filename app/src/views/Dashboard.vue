@@ -40,7 +40,7 @@
 								<!-- <div v-if="!edit" @click="addNewBug(uniqueProject)">+ Add bug</div>
 
 								<div v-else> -->
-									<input type="text" v-model="formData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
+									<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
 									<!-- <div @click="createBug(uniqueProject, index)">Add</div> -->
 								<!-- </div> -->
 							</div>
@@ -82,10 +82,7 @@
 			return {
 				uniqueProjects:[],
 				edit: false,
-				formData: [],
-				// formData: {
-				// 	title:'',
-				// },
+				bugData: [],
 				projectID: '',
 				// filteredTickets:[],
 				colors: [
@@ -114,17 +111,9 @@
 			})
 			this.filteredProjects();
 		},
-
-		// watch: {
-		// 	filteredProjects();
-		// },
 		
 		components: {
 			TicketCard,
-		},
-
-		computed: {
-			
 		},
 
 		methods: {
@@ -134,16 +123,19 @@
 				console.log(this.uniqueProjects)
 			},	
 
-			addNewBug(uniqueProject) {
-				this.edit = !this.edit;
-			},
-
 			createBug(uniqueProject, index) {
 				this.projectID = this.projectsResult.find(project => project.name === uniqueProject );
 				console.log(this.projectID._id)
 				sanity.create({
 					_type: 'bug',
-					title: this.formData[index],
+					title: this.bugData[index],
+					slug: {
+						_type: 'slug',
+						current: this.bugData[index]
+										.toLowerCase()
+										.replace(/\s+/g, '-')
+										.slice(0, 200),
+						},
 					project: {
 						_type: 'reference',
 						_ref: this.projectID._id,
@@ -151,7 +143,7 @@
 				})
 				
 				.then(res => {
-					console.log(`Created book with id: ${res._id}`)
+					console.log(`Created bug with id: ${res._id}`)
 				});
 			},
 		},	
