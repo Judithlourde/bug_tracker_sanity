@@ -8,21 +8,26 @@
 				<form>
 					<section>
                         <label for="reporter">Reporter</label>
-                        <input id="reporter" name="reporter" type="text" v-model="bug.reporter.name">
+                        <input v-if="bug.reporter !== null " id="reporter" name="reporter" type="text" v-model="bug.reporter.name">
+						<input v-else id="reporter" name="reporter" type="text" v-model="bugData.reporter">
 
                         <label for="assignee">Assignee</label>
-                        <select id="assignee" name="assignee">
-							<option v-for="assignee in bug.project.projectMembers" :key="assignee._id" :value="assignee.name">{{ `${assignee.name}` }}</option>
+						<select v-if="bug.assignee !== null" id="assignee" name="assignee" v-model="bug.assignee.name">
+							<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
+						</select>
+
+                        <select v-else id="assignee" name="assignee" v-model="bugData.assignee">
+							<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
 						</select>
 
                         <label for="dueDate">Due Date:</label>
-                        <input type="date" id="dueDate" name="dueDate" v-model="formData.dueDate">
+                        <input type="date" id="dueDate" name="dueDate" v-model="bug.dueDate">
 
                         <label for="description">Description</label> 
                     	<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bug.description"></textarea>
 
                         <label for="screenshot">Screenshot</label>
-                        <input type="text" id="screenshot" name="screenshot" v-model="formData.screenshot">
+                        <input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot">
 
 						<label for="priority">Priority</label>
 						<select id="priority" name="priority" v-model="bug.priority">
@@ -31,9 +36,9 @@
 							<option value="critical">Critical</option>
 						</select>
 
-						<div>
+						<!-- <div> -->
 							<label for="progress">Progress</label>
-							<input type="range" id="progress" name="progress" v-model.number="formData.progress" min="0" max=100>
+							<input type="range" id="progress" name="progress" v-model.number="bug.progress" min="0" max=100>
 							
 							<label for="status">Status</label>
 							<select id="status" name="status" v-model="bug.status">
@@ -42,7 +47,7 @@
 								<option value="stuck">Stuck</option>
 								<option value="done">Done</option>
 							</select>
-						</div>
+						<!-- </div> -->
                             
                         <input type="submit" @click.prevent="handleSubmit">
 					</section>
@@ -61,7 +66,7 @@
 
 		data() {
 			return {
-				formData: {
+				bugData: {
 					description: '',
 					priority: '',
 					status: '',
