@@ -1,6 +1,8 @@
 <template>
-    <div v-if="bugStatus" class="status-container" :style="{backgroundColor: color}">{{ bugStatus }}</div>
-    <div v-else></div>
+    <!-- <section> -->
+        <div v-if="bugStatus" class="status-container" :style="{backgroundColor: color}">{{ bugStatus }}</div>
+        <div v-else></div>
+    <!-- </section> -->
 </template>
 
 <script>
@@ -24,16 +26,19 @@
             getColor() {
                 switch (this.status) {
                     case 'done':
-                        this.color = 'rgba(162, 93, 220, 1)'
+                        this.color = 'rgba(162, 93, 220, 1)';
                         break
+
                     case 'working on it':
-                        this.color = 'rgba(0, 200, 117, 1)'
+                        this.color = 'rgba(0, 200, 117, 1)';
                         break
+
                     case 'stuck':
-                        this.color = 'rgb(255,203,0)'
+                        this.color = 'rgb(255,203,0)';
                         break
+
                     default:
-                        this.color = 'rgba(86, 155, 253, 1)'
+                        this.color = 'rgba(86, 155, 253, 1)';
                 }
             }
         }
