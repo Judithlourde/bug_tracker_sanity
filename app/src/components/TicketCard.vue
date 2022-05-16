@@ -5,27 +5,27 @@
             <router-link class="ticketCard__title"  :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">{{ filteredBug.title }}</router-link>
 
             <TicketOwnerDisplay 
-                :ticket-owner = filteredBug.reporter
+                :ticket-owner="filteredBug.reporter"
             />
             
             <StatusDisplay 
-                :bug-status = filteredBug.status 
+                :bug-status="filteredBug.status" 
             />
 
             <PriorityDisplay 
-                :priority = filteredBug.priority
+                :priority="filteredBug.priority"
             />
 
             <AssigneeDisplay 
-                :assignee = filteredBug.assignee
+                :assignee="filteredBug.assignee"
             />
 
             <ProgressDisplay 
-                :progress = filteredBug.progress
+                :progress-display="progress"
             />
 
             <DueDateDisplay
-                :dueDate = filteredBug.dueDate
+                :due-date="filteredBug.dueDate"
             />
         </div>
         <!-- <DeleteBlock /> -->
@@ -46,6 +46,7 @@
             filteredBug: { Object },
             color: { String }
         },
+
         components: {
             TicketOwnerDisplay,
             StatusDisplay,
@@ -54,7 +55,40 @@
             ProgressDisplay,
             DueDateDisplay,
             // DeleteBlock
-        },     
+        },  
+
+        created() {
+            this.getProgress()
+        },
+
+        data() {
+            return {
+                bugProgress: this.filteredBug.status,
+                progress: 0,
+            }
+        },
+        
+        methods: {
+            getProgress() {
+                console.log(this.filteredBug.status);
+                switch (this.bugProgress) {
+                    case 'done':
+                        this.progress = 100;
+                        break
+
+                    case 'working on it':
+                        this.progress = 60;
+                        break
+
+                    case 'stuck':
+                        this.progress = 40;
+                        break
+
+                    default:
+                        this.progress = 10;
+                }
+            }
+        }
     }
 </script>
 
