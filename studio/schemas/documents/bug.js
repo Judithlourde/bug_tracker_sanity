@@ -75,11 +75,6 @@ export default {
             validation: (Rule) => Rule.required()
         },
 		{
-			title: 'Progress',
-			name: 'progress',
-			type: 'number'
-		},
-		{
 			title: 'Due Date',
 			name: 'dueDate',
 			type: 'date'
