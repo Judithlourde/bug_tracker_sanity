@@ -80,11 +80,11 @@
 		mixins: [viewMixin],
 		data() {
 			return {
+				results: [],
 				uniqueProjects:[],
 				edit: false,
 				bugData: [],
 				projectID: '',
-				// filteredTickets:[],
 				colors: [
 					'rgba(162, 93, 220, 1)',
 					'rgba(0, 200, 117, 1)',
@@ -96,20 +96,7 @@
 		},
 
 		async created() {
-			await this.sanityFetch(query, { 
-				documentType: 'bug'
-			});
-
-			await this.sanityFetchProject(projects, { 
-				type: 'project'
-			});
-
-			console.log(this.result)
-
-			this.metaTags({
-				title: 'Bugs Tracker',
-			})
-			this.filteredProjects();
+			await this.loadBugs();
 		},
 		
 		components: {
@@ -117,10 +104,25 @@
 		},
 
 		methods: {
+			async loadBugs() {
+				await this.sanityFetch(query, { 
+					documentType: 'bug'
+				});
+
+				await this.sanityFetchProject(projects, { 
+					type: 'project'
+				});
+
+				console.log(this.result)
+
+				this.metaTags({
+					title: 'Bugs Tracker',
+				})
+				this.filteredProjects();
+			},
 			filteredProjects() {
 				// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
 				this.uniqueProjects = [ ...new Set(this.result.map(({ project }) => project.name)) ]; 
-				console.log(this.uniqueProjects)
 			},	
 
 			createBug(uniqueProject, index) {
@@ -144,6 +146,7 @@
 				
 				.then(res => {
 					console.log(`Created bug with id: ${res._id}`)
+					this.loadBugs();
 				});
 			},
 		},	
