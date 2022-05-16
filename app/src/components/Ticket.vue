@@ -31,14 +31,15 @@
 
 						<label for="priority">Priority</label>
 						<select id="priority" name="priority" v-model="bug.priority">
-							<option value="major">Major</option>
+							<option value="high">High</option>
+							<option value="medium">Medium</option>
 							<option value="low">Low</option>
 							<option value="critical">Critical</option>
 						</select>
 
 						<!-- <div> -->
-							<label for="progress">Progress</label>
-							<input type="range" id="progress" name="progress" v-model.number="bug.progress" min="0" max=100>
+							<!-- <label for="progress">Progress</label> -->
+							<!-- <input type="range" id="progress" name="progress" v-model.number="bug.progress" min="0" max=100> -->
 							
 							<label for="status">Status</label>
 							<select id="status" name="status" v-model="bug.status">
