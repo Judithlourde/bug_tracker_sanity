@@ -37,12 +37,11 @@
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
 							
 							<div class="edit">
-								<!-- <div v-if="!edit" @click="addNewBug(uniqueProject)">+ Add bug</div>
-
-								<div v-else> -->
-									<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
-									<!-- <div @click="createBug(uniqueProject, index)">Add</div> -->
-								<!-- </div> -->
+								<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
+								<!-- <div @click="createBug(uniqueProject, index)">Add</div> -->
+								<!-- <Ticket 
+									:bug="filteredBug"
+								/> -->
 							</div>
 							
 							<div></div> 
@@ -75,6 +74,7 @@
 	import projects from '../groq/project.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
+	// import Ticket from '../components/Ticket.vue';
 	// import TicketPage from '../views/TicketPage.vue';
 	export default {
 		mixins: [viewMixin],
@@ -101,6 +101,7 @@
 		
 		components: {
 			TicketCard,
+			// Ticket
 		},
 
 		methods: {
