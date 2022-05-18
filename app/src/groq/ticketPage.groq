@@ -25,6 +25,7 @@
         name,
         slug,
         projectMembers[]-> {
+            ...,
             name,
             image {
                 asset-> {
