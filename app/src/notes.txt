@@ -1,3 +1,7 @@
+window.focus
+v-show
+
+
 <!-- <div class="ticket__container-multiple-input-container">
     <input id="priority-1" name="priority" type="radio"	:value=1 v-model="formData.priority"> 
     <label for="priority-1">1</label>
@@ -404,3 +408,89 @@
 documentation[] {
 		..., asset->{ url }
 	}
+
+	// 	handleSubmit() {
+		// 		this.teamID = this.result.find(team => team.name === this.formData.team );
+		// 		const teamIndex = this.result.findIndex(team => team.name === this.formData.team)
+		// 		if(teamIndex === 1) {
+		// 			const team = {
+		// 				_id: this.teamID._id,
+		// 				_type: 'team',
+		// 				name: this.formData.team,
+		// 			}
+		// 			sanity.createIfNotExists(team).then((res) => {
+		// 				this.teamID = res._id;
+
+		// 				const reporter = {
+		// 					_type: 'person',
+		// 					name: this.formData.reporter,
+		// 				}
+		// 				sanity.create(reporter).then((res) => {
+		// 					this.reporterID = res._id;
+
+		// 					const assignee = {
+		// 					_type: 'person',
+		// 					name: this.formData.assignee,
+		// 					}
+		// 					sanity.create(assignee).then((res) => {
+		// 						this.assigneeID = res._id;
+		// 						this.createBug();
+		// 					});
+		// 				});
+		// 			});		
+		// 		} else {
+		// 			const team = {
+		// 				_type: 'team',
+		// 				name: this.formData.team,
+		// 			}
+		// 			sanity.create(team).then((res) => {
+		// 				this.teamID = res._id;
+
+		// 				const reporter = {
+		// 					_type: 'person',
+		// 					name: this.formData.reporter,
+		// 				}
+		// 				sanity.create(reporter).then((res) => {
+		// 					this.reporterID = res._id;
+
+		// 					const assignee = {
+		// 					_type: 'person',
+		// 					name: this.formData.assignee,
+		// 					}
+		// 					sanity.create(assignee).then((res) => {
+		// 						this.assigneeID = res._id;
+		// 						this.createBug();
+		// 					});
+		// 				});
+		// 			});		
+		// 		}
+					
+		// 	},
+
+		// 	createBug() {
+		// 		sanity.create({
+		// 			_type: 'bug',
+		// 			title: this.formData.title,
+		// 			description: this.formData.description,
+		// 			priority: this.formData.priority,
+		// 			status: this.formData.status,
+		// 			progress: this.formData.progress,
+		// 			submitDate: this.formData.submitDate,
+		// 			team: {
+		// 				_type: 'reference',
+		// 				_ref: this.teamID,
+		// 			},
+		// 			reporter: {
+		// 				_type: 'reference',
+		// 				_ref: this.reporterID,
+		// 			},
+		// 			assignee: {
+		// 				_type: 'reference',
+		// 				_ref: this.assigneeID,
+		// 			}
+		// 		})
+				
+		// 		.then(result => {
+		// 			console.log(`Created book with id: ${result._id}`)
+		// 		});
+		// 	},
