@@ -5,14 +5,6 @@
 				<img src="/svg/bugsTracker-logo.svg" alt="Logo for the friday.com">
 			</router-link>
 		</div>
-		
-		<!-- <div class="controls-container">
-			<div class="icon" >
-				<router-link :to="{ name:'ticket' }">
-					<img src="/svg/plus-icon.svg" alt="plus icon for make tickets">
-				</router-link>
-			</div>
-		</div> -->
 	</nav>
 
 </template>
