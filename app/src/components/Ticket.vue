@@ -21,35 +21,50 @@
 						</select>
 
                         <label for="dueDate">Due Date:</label>
-                        <input type="date" id="dueDate" name="dueDate" v-model="bug.dueDate">
+						<input v-if="bug.dueDate" type="date" id="dueData" name="dueDate" v-model="bug.date">
+                        <input v-else type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
 
                         <label for="description">Description</label> 
-                    	<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bug.description"></textarea>
+                    	<textarea v-if="bug.description" id="description" name="description" rows="4" cols="20" type="text" v-model="bug.description"></textarea>
+						<textarea v-else id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
 
-                        <label for="screenshot">Screenshot</label>
-                        <input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot">
+                        <!-- <label for="screenshot">Screenshot</label>
+                        <input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
 
 						<label for="priority">Priority</label>
-						<select id="priority" name="priority" v-model="bug.priority">
+						<select v-if="bug.priority" id="priority" name="priority" v-model="bug.priority">
 							<option value="high">High</option>
 							<option value="medium">Medium</option>
 							<option value="low">Low</option>
 							<option value="critical">Critical</option>
 						</select>
 
-						<!-- <div> -->
+						<select v-else id="priority" name="priority" v-model="bugData.priority">
+							<option value="high">High</option>
+							<option value="medium">Medium</option>
+							<option value="low">Low</option>
+							<option value="critical">Critical</option>
+						</select>
+
 							<!-- <label for="progress">Progress</label> -->
 							<!-- <input type="range" id="progress" name="progress" v-model.number="bug.progress" min="0" max=100> -->
 							
-							<label for="status">Status</label>
-							<select id="status" name="status" v-model="bug.status">
-								<option value="not started">Not started yet</option>
-								<option value="working on it">Working on it</option>
-								<option value="stuck">Stuck</option>
-								<option value="done">Done</option>
-							</select>
-						<!-- </div> -->
+						<label for="status">Status</label>
+						<select v-if="bug.status" id="status" name="status" v-model="bug.status">
+							<option value="not started yet">Not started yet</option>
+							<option value="working on it">Working on it</option>
+							<option value="stuck">Stuck</option>
+							<option value="done">Done</option>
+						</select>
+
+						<select v-else id="status" name="status" v-model="bugData.status">
+							<option value="not started yet">Not started yet</option>
+							<option value="working on it">Working on it</option>
+							<option value="stuck">Stuck</option>
+							<option value="done">Done</option>
+						</select>
                             
+						
                         <input type="submit" @click.prevent="handleSubmit">
 					</section>
 				</form>
@@ -71,15 +86,14 @@
 					description: '',
 					priority: '',
 					status: '',
-					progress: 0,
 					dueDate: '',
 					reporter: '',
 					assignee: '',
                     screenshot: ''
 				},
-				teamID: '',
 				reporterID: '',
 				assigneeID: '',
+				projectMemberID: '',
 			}
 		},
 
@@ -91,90 +105,38 @@
 
 		methods: {
 			handleSubmit() {
-				this.teamID = this.result.find(team => team.name === this.formData.team );
-				const teamIndex = this.result.findIndex(team => team.name === this.formData.team)
-				if(teamIndex === 1) {
-					const team = {
-						_id: this.teamID._id,
-						_type: 'team',
-						name: this.formData.team,
+				this.projectMemberID = this.result[0].project.projectMembers.find(member => member.name === this.bugData.assignee);
+				const assignee = {
+						_id: this.projectMemberID._id,
+						_type: 'employee',
+						name: this.bugData.assignee,
 					}
-					sanity.createIfNotExists(team).then((res) => {
-						this.teamID = res._id;
+				sanity.createIfNotExists(assignee).then((res) => {
+					this.assigneeID = res._id;
+					this.createBug();
+				});
 
-						const reporter = {
-							_type: 'person',
-							name: this.formData.reporter,
-						}
-						sanity.create(reporter).then((res) => {
-							this.reporterID = res._id;
-
-							const assignee = {
-							_type: 'person',
-							name: this.formData.assignee,
-							}
-							sanity.create(assignee).then((res) => {
-								this.assigneeID = res._id;
-								this.createBug();
-							});
-						});
-					});		
-				} else {
-					const team = {
-						_type: 'team',
-						name: this.formData.team,
-					}
-					sanity.create(team).then((res) => {
-						this.teamID = res._id;
-
-						const reporter = {
-							_type: 'person',
-							name: this.formData.reporter,
-						}
-						sanity.create(reporter).then((res) => {
-							this.reporterID = res._id;
-
-							const assignee = {
-							_type: 'person',
-							name: this.formData.assignee,
-							}
-							sanity.create(assignee).then((res) => {
-								this.assigneeID = res._id;
-								this.createBug();
-							});
-						});
-					});		
-				}
-					
+				// console.log(this.result[0]._id)
+				// console.log(this.bugData.assignee)
 			},
 
 			createBug() {
-				sanity.create({
-					_type: 'bug',
-					title: this.formData.title,
-					description: this.formData.description,
-					priority: this.formData.priority,
-					status: this.formData.status,
-					progress: this.formData.progress,
-					submitDate: this.formData.submitDate,
-					team: {
-						_type: 'reference',
-						_ref: this.teamID,
-					},
-					reporter: {
-						_type: 'reference',
-						_ref: this.reporterID,
-					},
-					assignee: {
-						_type: 'reference',
-						_ref: this.assigneeID,
-					}
-				})
-				
-				.then(result => {
-					console.log(`Created book with id: ${result._id}`)
-				});
-			},
+				sanity
+					.patch(this.result[0]._id)
+					.set({ assignee: {
+								_type: 'reference',
+								_ref: this.assigneeID,
+							}, 
+						})
+					.set({ description: this.bugData.description, })
+					.set({ priority: this.bugData.priority, })
+					.set({ status: this.bugData.status, })
+					.set({ dueDate: this.bugData.dueDate, })
+					.commit()
+					.then(updatedDocument => {
+						console.log('I just updated document:', updatedDocument);
+					});
+			}	
 		},
 	}
 </script>
