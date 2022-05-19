@@ -26,7 +26,7 @@ export default {
 			type: 'text'
 		},
 		{
-			title: 'Screen Shot',
+			title: 'Screenshot',
 			name: 'screenshot',
 			type: 'image',
 		},
