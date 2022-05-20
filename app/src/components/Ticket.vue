@@ -1,52 +1,67 @@
 <template>
-	<section class="test">
+	<section v-if="!toggleTicketSection" class="slide-panel">
 		<div v-if="loading">...</div> 
-		<div v-else class="ticket" v-for="bug in result" :key="bug._id"> 
-			<div class="ticket__container">
-				<h1>{{ bug.title }}</h1>
-				<form>
-					<section>
-                        <label for="reporter">Reporter</label>
-						<input id="reporter" name="reporter" type="text" v-model="bugData.reporter">
+		<div v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
+			<div class="slide-panel__ticket-overlay"></div>
+				
+			<div class="slide-panel__ticket-content">
+				<div class="ticket-container">
+					<div class="ticket-container__header">
+						<h1>{{ bug.title }}</h1>
+						<button @click="closeTicketSection()">
+							<img src="/svg/close-button.svg" alt="close-icon">
+						</button>
 
-                        <label for="assignee">Assignee</label>
-						<select id="assignee" name="assignee" v-model="bugData.assignee">
-							<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
-						</select>
+					</div>
+					<!-- <transition name="animation"> -->
+					<form>
+						<section>
+							<label for="reporter">Reporter</label>
+							<input id="reporter" name="reporter" type="text" v-model="bugData.reporter">
 
-                        <label for="dueDate">Due Date:</label>
-						<input type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
+							<label for="assignee">Assignee</label>
+							<select id="assignee" name="assignee" v-model="bugData.assignee">
+								<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
+							</select>
 
-                        <label for="description">Description</label> 
-						<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
+							<label for="dueDate">Due Date:</label>
+							<input type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
 
-                        <!-- <label for="screenshot">Screenshot</label>
-                        <input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
+							<label for="description">Description</label> 
+							<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
 
-						<label for="priority">Priority</label>
-						<select id="priority" name="priority" v-model="bugData.priority">
-							<option value="high">High</option>
-							<option value="medium">Medium</option>
-							<option value="low">Low</option>
-							<option value="critical">Critical</option>
-						</select>
-							
-						<label for="status">Status</label>
-						<select id="status" name="status" v-model="bugData.status">
-							<option value="not started yet">Not started yet</option>
-							<option value="working on it">Working on it</option>
-							<option value="stuck">Stuck</option>
-							<option value="done">Done</option>
-						</select>
-                            
-						<router-link :to="{ name:'dashboard' }">
-                        	<input type="submit" @click.prevent="handleSubmit"> 
-						</router-link>
-					</section>
-				</form>
+							<!-- <label for="screenshot">Screenshot</label>
+							<input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
+
+							<label for="priority">Priority</label>
+							<select id="priority" name="priority" v-model="bugData.priority">
+								<option value="high">High</option>
+								<option value="medium">Medium</option>
+								<option value="low">Low</option>
+								<option value="critical">Critical</option>
+							</select>
+								
+							<label for="status">Status</label>
+							<select id="status" name="status" v-model="bugData.status">
+								<option value="not started yet">Not started yet</option>
+								<option value="working on it">Working on it</option>
+								<option value="stuck">Stuck</option>
+								<option value="done">Done</option>
+							</select>
+								
+							<router-link :to="{ name:'dashboard' }">
+								<input type="submit" @click.prevent="handleSubmit"> 
+							</router-link>
+						</section>
+					</form>
+					<!-- </transition> -->
+				</div>
 			</div>
+				
+			
 		</div>	
 	</section>
+
 </template>
 
 <script> 
@@ -55,6 +70,10 @@
 	import viewMixin from '../mixins/viewMixin.js';
 	export default {
 		mixins: [viewMixin],
+
+		props: {
+			toggleTicketSection: { type: Boolean }
+		},
 
 		data() {
 			return {
@@ -131,76 +150,101 @@
 					.then(updatedDocument => {
 						// console.log('I just updated document:', updatedDocument);
 					});
-			}	
+			},
+			
+			emitCloseTicketSection() {
+				this.$emit('close-ticket-section');
+			}
 		},
 	}
 </script>
 
 <style>
-	.test {
-		position: relative;
-		width: 80vw;
-		/* position: fixed;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        object-fit: cover; */
-        /* width: 100vw; */
-        /* height: 100vh; */
-        /* z-index: 400; */
+	/* .animation-enter-from,
+	.animation-leave-from {
+		opacity: 0;
+        transform: translateY(-250px);
 	}
 
-	.ticket {
+	.animation-enter-to,
+	.animation-leave-to {
+		opacity: 1;
+        transform: translateY(0);
+	}
+
+	.animation-enter-active,
+	.animation-leave-active {
+		transition: all 1s ease-in-out;
+	} */
+	
+
+	.slide-panel__ticket {
+		margin-top: 0px;
+		position: fixed;
+        top: 0;
+        right: 0;
+		bottom: 0;
+		width: 700px;
+		max-width: calc(100% - 200px);
+		z-index: 1000;
+		border-left: 1px solid;
+		transition: transform 150ms cubic-bezier(0, 0, 0.35, 1);
+	}
+
+	.slide-panel__ticket-overlay {
+		right: 100%;
+		width: 3000px;
+		top: 0;
+		bottom: 0;
 		position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        width: 100%;
+		background-color: rgba(17, 17, 17, 0.7);
+		/* transition: background .1s ease; */
+		/* pointer-events: none; */
+		/* display: none; */
+	}
+
+	.slide-panel__ticket-content {
         height: 100%;
-        object-fit: cover;
-        opacity: 0.8;
-        /* background-color: rgba(17, 17, 17, 0.7); */
-			/* padding: 30px; */
-			/* width: 100%; */
 	}
 
-	.ticket__container {
-		/* width: 100%; */
+	.ticket-container {
+		display: -ms-flexbox;
 		display: flex;
-		justify-content: center;
-		transform: translateX(0);
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        display: flex;
-        flex-direction: column;
-        /* align-items: center; */
-        max-width: 500px;
-        height: 100%;
-        width: 100%;
-        background-color: #fff;
+		-ms-flex-direction: column;
+		flex-direction: column;
+		-ms-flex-wrap: nowrap;
+		flex-wrap: nowrap;
+		height: 100%;
 	}
 
-	.ticket__container form {
+	.ticket-container__header {
 		display: flex;
+		justify-content: space-between;
+		padding: 30px;
 	}
 
-	.ticket__container form section {
+	.ticket-container__header img {
+		width: 30px;
+	}
+
+	.ticket-container form {
+		display: flex;
+		padding: 0 30px;
+	}
+
+	.ticket-container form section {
 		display: flex;
 		flex-direction: column;
 		margin: 10px;
 		width: 500px;
 	}
 
-	.ticket__container form label {
+	.ticket-container form label {
 		margin: 20px 0 0 0;	
 	}
 
-	.ticket__container form select,
-	.ticket__container form input {
+	.ticket-container form select,
+	.ticket-container form input {
 		padding: 10px;
 		font-size: 15px;
 		border-radius: 10px;
