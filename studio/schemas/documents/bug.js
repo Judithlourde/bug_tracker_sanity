@@ -68,7 +68,7 @@ export default {
                     {title: 'Not started yet', value: 'not stated yet'},           
                     {title: 'Working on it', value: 'working on it'},
                     {title: 'Stuck', value: 'stuck'},
-					{title: 'Done', value: 'Done'},
+					{title: 'Done', value: 'done'},
                 ],
                 layout: 'radio'
             },
