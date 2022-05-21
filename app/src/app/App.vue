@@ -1,16 +1,26 @@
 <template>
-	<section class="app">
-		<Navbar/>
-		<RouterView />
+	<section>
+		<div class="app">
+			<Navbar/>
+			<Dashboard/>
+		</div>
+		
+		<RouterView/>
 	</section>
+	
 	
 </template>
 
 <script>
 	import Navbar from '../components/Navbar.vue';
+	import Dashboard from '../views/Dashboard.vue';
 	
 	export default {
-		components: { Navbar }
+		components: { 
+			Navbar,
+			Dashboard,
+
+		}
 	}
 </script>
 
