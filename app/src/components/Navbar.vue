@@ -1,9 +1,9 @@
 <template>
 	<nav class="navigation">
 		<div class="navigation__logo-container">
-			<router-link :to="{ name:'dashboard' }">
+			<!-- <router-link :to="{ name:'dashboard' }"> -->
 				<img src="/svg/bugsTracker-logo.svg" alt="Logo for the friday.com">
-			</router-link>
+			<!-- </router-link> -->
 		</div>
 	</nav>
 
