@@ -39,9 +39,6 @@
 							<div class="edit">
 								<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
 								<!-- <div @click="createBug(uniqueProject, index)">Add</div> -->
-								<!-- <Ticket 
-									:bug="filteredBug"
-								/> -->
 							</div>
 							
 							<div></div> 
@@ -59,10 +56,6 @@
 						</div>
 					</div>
 				</div> 
-
-				<!-- <TicketPage 
-					:projects="this.uniqueProjects"
-				/> -->
 			</div>
 		</div>
 	</section>
@@ -74,10 +67,10 @@
 	import projects from '../groq/project.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
-	// import Ticket from '../components/Ticket.vue';
-	// import TicketPage from '../views/TicketPage.vue';
+
 	export default {
 		mixins: [viewMixin],
+
 		data() {
 			return {
 				results: [],
@@ -91,7 +84,7 @@
 					'rgba(253, 172, 61, 1)',
 					'rgba(226, 67, 92, 1)',
 					'rgba(86, 155, 253, 1)',
-				]
+				],
 			}
 		},
 
@@ -101,7 +94,6 @@
 		
 		components: {
 			TicketCard,
-			// Ticket
 		},
 
 		methods: {

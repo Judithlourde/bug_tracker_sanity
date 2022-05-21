@@ -1,12 +1,20 @@
 <template>
-    <Ticket />
+    <TicketEdit 
+		:test="value"
+	/>
 </template>
 
 <script>
-    import Ticket from '../components/Ticket.vue'
+    import TicketEdit from '../components/TicketEdit.vue'
     export default {
         components: {
-            Ticket
-        }    
+            TicketEdit
+        },
+		
+		data() {
+			return {
+				value: true
+			}
+		}
     }
 </script>
