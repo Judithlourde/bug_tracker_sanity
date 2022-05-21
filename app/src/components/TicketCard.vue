@@ -1,35 +1,37 @@
 <template>
-    <div class="ticketCard">
-        <div>
-            <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
-            <router-link class="ticketCard__title"  :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">{{ filteredBug.title }}</router-link>
+    <section>
+        <div class="ticketCard">
+            <div>
+                <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
+                
+                <router-link class="ticketCard__title" @click="openTicketSection" :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">{{ filteredBug.title }}</router-link>
 
-            <TicketOwnerDisplay 
-                :ticket-owner="filteredBug.reporter"
-            />
-            
-            <StatusDisplay 
-                :bug-status="filteredBug.status" 
-            />
+                <TicketOwnerDisplay 
+                    :ticket-owner="filteredBug.reporter"
+                />
+                
+                <StatusDisplay 
+                    :bug-status="filteredBug.status" 
+                />
 
-            <PriorityDisplay 
-                :priority="filteredBug.priority"
-            />
+                <PriorityDisplay 
+                    :priority="filteredBug.priority"
+                />
 
-            <AssigneeDisplay 
-                :assignee="filteredBug.assignee"
-            />
+                <AssigneeDisplay 
+                    :assignee="filteredBug.assignee"
+                />
 
-            <ProgressDisplay 
-                :progress-display="progress"
-            />
+                <ProgressDisplay 
+                    :progress-display="progress"
+                />
 
-            <DueDateDisplay
-                :due-date="filteredBug.dueDate"
-            />
+                <DueDateDisplay
+                    :due-date="filteredBug.dueDate"
+                />
+            </div>
         </div>
-        <!-- <DeleteBlock /> -->
-    </div>
+    </section>
 </template>
 
 <script>
@@ -39,7 +41,6 @@
     import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
     import DueDateDisplay from './DueDateDisplay.vue'
-    // import DeleteBlock from './DeleteBlock.vue'
 
     export default {
         props: {
@@ -54,11 +55,11 @@
             AssigneeDisplay,
             ProgressDisplay,
             DueDateDisplay,
-            // DeleteBlock
         },  
 
         created() {
             this.getProgress()
+            console.log(this.$route.params.ticketSlug)
         },
 
         data() {
@@ -87,7 +88,7 @@
                     default:
                         this.progress = 10;
                 }
-            }
+            },
         }
     }
 </script>
