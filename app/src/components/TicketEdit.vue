@@ -2,65 +2,66 @@
 	<section class="slide-panel">
 		<div v-if="loading">...</div> 
 		<div v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
-			<div class="slide-panel__ticket-overlay"></div>
+			<!-- <div class="slide-panel__ticket-overlay"></div> -->
 			
-			<div class="slide-panel__ticket-content">
-				
-					<div class="ticket-container">
-						<div class="ticket-container__header">
-							<h1>{{ bug.title }}</h1>
-							<button @click="closeTicketSection">
+			<div class="slide-panel__ticket-content">	
+				<div class="ticket-container">
+					<div class="ticket-container__header">
+						<h1>{{ bug.title }}</h1>
+
+						<RouterLink :to="{ name:'bugsBoard' }">
+							<!-- <button @click="closeTicketSection"> -->
+							<button>
 								<img src="/svg/close-button.svg" alt="close-icon">
 							</button>
+						</RouterLink>
 
-						</div>
-						
-						<form>
-							<section>
-								<label for="reporter">Reporter</label>
-								<transition name="animation">
-								<input id="reporter" name="reporter" type="text" v-model="bugData.reporter">
-								</transition>
-
-								<label for="assignee">Assignee</label>
-								<select id="assignee" name="assignee" v-model="bugData.assignee">
-									<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
-								</select>
-
-								<label for="dueDate">Due Date:</label>
-								<input type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
-
-								<label for="description">Description</label> 
-								<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
-
-								<!-- <label for="screenshot">Screenshot</label>
-								<input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
-
-								<label for="priority">Priority</label>
-								<select id="priority" name="priority" v-model="bugData.priority">
-									<option value="high">High</option>
-									<option value="medium">Medium</option>
-									<option value="low">Low</option>
-									<option value="critical">Critical</option>
-								</select>
-									
-								<label for="status">Status</label>
-								<select id="status" name="status" v-model="bugData.status">
-									<option value="not started yet">Not started yet</option>
-									<option value="working on it">Working on it</option>
-									<option value="stuck">Stuck</option>
-									<option value="done">Done</option>
-								</select>
-									
-								<!-- <router-link :to="{ name:'dashboard' }"> -->
-									<input type="submit" @click.prevent="handleSubmit"> 
-								<!-- </router-link> -->
-							</section>
-						</form>
 					</div>
-				
+					
+					<form>
+						<section>
+							<label for="reporter">Reporter</label>
+							<transition name="animation">
+							<input id="reporter" name="reporter" type="text" v-model="bugData.reporter">
+							</transition>
+
+							<label for="assignee">Assignee</label>
+							<select id="assignee" name="assignee" v-model="bugData.assignee">
+								<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
+							</select>
+
+							<label for="dueDate">Due Date:</label>
+							<input type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
+
+							<label for="description">Description</label> 
+							<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
+
+							<!-- <label for="screenshot">Screenshot</label>
+							<input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
+
+							<label for="priority">Priority</label>
+							<select id="priority" name="priority" v-model="bugData.priority">
+								<option value="high">High</option>
+								<option value="medium">Medium</option>
+								<option value="low">Low</option>
+								<option value="critical">Critical</option>
+							</select>
+								
+							<label for="status">Status</label>
+							<select id="status" name="status" v-model="bugData.status">
+								<option value="not started yet">Not started yet</option>
+								<option value="working on it">Working on it</option>
+								<option value="stuck">Stuck</option>
+								<option value="done">Done</option>
+							</select>
+								
+							<!-- <router-link :to="{ name:'dashboard' }"> -->
+								<input type="submit" @click.prevent="handleSubmit"> 
+							<!-- </router-link> -->
+						</section>
+					</form>
+				</div>
 			</div>
-				
 		</div>	
 	</section>
 
@@ -74,7 +75,7 @@
 		mixins: [viewMixin],
 
 		props: {
-			openTicketSection: { Boolean }
+			openTicketSection: { String}
 			// toggleTicketSection: { type: Boolean },
 			// ticketSlug: { String }
 		},
@@ -94,13 +95,24 @@
 		},
 
 		async created() {
-			await this.sanityFetch(query, { 
-				slug: this.$route.params.ticketSlug 
-			});
-			this.handleBugData();
+			await this.changeBugContent()
+			console.log(this.$route.path)
+			// await this.$watch(this.changeBugContent)
 		},
 
+		// async mounted() {
+		// 	await this.changeBugContent()
+		// },
+
 		methods: {
+			async changeBugContent() {
+				await this.sanityFetch(query, { 
+					slug: this.$route.params.ticketSlug 
+				});
+				console.log(this.$route.params.ticketSlug)
+				this.handleBugData();
+			},
+
 			closeTicketSection() {
 				this.$router.back('/')
 			},
@@ -128,6 +140,7 @@
 				})
 				console.log(this.bugData)
 			},
+
 			handleSubmit() {
 				this.projectMember = this.result[0].project.projectMembers.find(member => member.name === this.bugData.assignee);
 					const assignee = {
@@ -199,22 +212,23 @@
 	}
 
 	.slide-panel {
-		width: 500px;
+		/* width: 500px; */
+		/* width: 100%; */
 		
 	}
 
 	.slide-panel__ticket {
-		margin-top: 0px;
+		/* margin-top: 0px;
 		position: fixed;
         top: 0;
         right: 0;
 		bottom: 0;
 		width: 700px;
-		max-width: calc(100% - 200px);
+		max-width: calc(100% - 200px); */
 		z-index: 1000;
-		border-left: 1px solid;
-		background: white;
-		transition: transform 150ms cubic-bezier(0, 0, 0.35, 1);
+		/* border-left: 1px solid; */
+		/* background: white; */
+		transition: animation 150ms cubic-bezier(0, 0, 0.35, 1);
 	}
 
 	.slide-panel__ticket-overlay {
