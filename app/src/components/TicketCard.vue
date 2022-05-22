@@ -4,7 +4,11 @@
             <div>
                 <div class="ticketCard__color" :style="{ backgroundColor: color }"></div>
                 
-                <router-link class="ticketCard__title" @click="openTicketSection" :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">{{ filteredBug.title }}</router-link>
+                <div class="ticketCard__title">
+                    <router-link :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">
+                        <button @click="changeBugContent">{{ filteredBug.title }} </button>
+                    </router-link>
+                </div>
 
                 <TicketOwnerDisplay 
                     :ticket-owner="filteredBug.reporter"
@@ -41,6 +45,7 @@
     import AssigneeDisplay from './AssigneeDisplay.vue'
     import ProgressDisplay from './ProgressDisplay.vue'
     import DueDateDisplay from './DueDateDisplay.vue'
+    import TicketEdit from './TicketEdit.vue'
 
     export default {
         props: {
@@ -55,11 +60,11 @@
             AssigneeDisplay,
             ProgressDisplay,
             DueDateDisplay,
+            TicketEdit
         },  
 
         created() {
             this.getProgress()
-            console.log(this.$route.params.ticketSlug)
         },
 
         data() {
@@ -89,6 +94,10 @@
                         this.progress = 10;
                 }
             },
+
+            changeBugContent() {
+                this.$router.push('/bugsBoard/bug')
+            }
         }
     }
 </script>
