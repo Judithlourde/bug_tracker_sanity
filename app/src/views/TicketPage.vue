@@ -1,7 +1,5 @@
 <template>
-    <TicketEdit 
-		:test="value"
-	/>
+    <TicketEdit />
 </template>
 
 <script>
@@ -10,11 +8,5 @@
         components: {
             TicketEdit
         },
-		
-		data() {
-			return {
-				value: true
-			}
-		}
     }
 </script>
