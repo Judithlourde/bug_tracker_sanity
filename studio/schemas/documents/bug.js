@@ -56,7 +56,7 @@ export default {
                 ],
                 layout: 'radio'
             },
-            validation: (Rule) => Rule.required()
+            // validation: (Rule) => Rule.required()
         },
 		{
             
@@ -72,7 +72,7 @@ export default {
                 ],
                 layout: 'radio'
             },
-            validation: (Rule) => Rule.required()
+            // validation: (Rule) => Rule.required()
         },
 		{
 			title: 'Due Date',

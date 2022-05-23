@@ -1,0 +1,42 @@
+{
+	'bugs': *[_type == 'bug'] | order(_createdAt asc) {
+        ...,
+        assignee-> {
+            name,
+            image {
+                asset-> { 
+                    url 
+                },
+                caption,
+            },
+        },
+        
+        reporter-> {
+            name,
+            image {
+                asset-> { 
+                    url 
+                },
+            caption, 
+            } 
+        },
+
+        project-> {
+            _id,
+            name,
+            slug,
+            projectMembers[]-> {
+                name,
+                image {
+                    asset-> {
+                        url
+                    }
+                }
+            }, 
+        } 
+    },
+
+	'projects': *[_type == 'project'] {
+        ...,
+    }
+}
