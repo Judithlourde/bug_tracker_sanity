@@ -12,7 +12,7 @@
 
             <div class="form__password">
                 <!-- <label for="floatingPassword">Password</label> -->
-                <!-- <input type="password" class="form-control" id="floatingPassword" placeholder="Password"> -->
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
             </div>
             <RouterLink class="form__logIn" :to="{ name:'bugsBoard' }">
                 <button class="form__logIn" type="submit">
@@ -20,7 +20,7 @@
                 </button>
             </RouterLink>
 
-            <p class="form__copyRights">&copy; Bugs Tracker</p>
+            <p class="form__copyRights">&copy; <span class="form__copyRights-animate"></span></p>
         </form>
     </section>
 </template>
@@ -76,4 +76,25 @@
     .form__logIn:hover {
         text-decoration: underline;
     }
-    </style>
+
+    .form__copyRights-animate::before {
+        content: '♥ by Judith Peter';
+        animation: animate infinite 3s;
+        padding-left: 10px;
+    }
+  
+    @keyframes animate {
+  
+        0% {
+            content: "♥ by Judith Peter";
+        }
+  
+        50% {
+            content: "Bugs Tracker";
+        }
+  
+        75% {
+            content: "♥ by Judith Peter";
+        }
+    }
+</style>
