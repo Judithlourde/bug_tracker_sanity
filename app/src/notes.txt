@@ -1,3 +1,16 @@
+
+.slide-panel__ticket-overlay {
+		
+		right: 100%;
+		width: 3000px;
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		background-color: rgba(17, 17, 17, 0.7); 
+		/* transition: background .1s ease; */
+		/* pointer-events: none; */
+		/* display: none; */
+	}
 window.focus
 v-show
 
