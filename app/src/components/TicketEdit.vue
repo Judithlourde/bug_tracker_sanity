@@ -2,27 +2,22 @@
 	<section class="slide-panel">
 		<div v-if="loading">...</div> 
 		<div v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
-			<!-- <div class="slide-panel__ticket-overlay"></div> -->
-			
 			<div class="slide-panel__ticket-content">	
 				<div class="ticket-container">
 					<div class="ticket-container__header">
 						<h1>{{ bug.title }}</h1>
-
 						<RouterLink :to="{ name:'bugsBoard' }">
-							<!-- <button @click="closeTicketSection"> -->
 							<button>
 								<img src="/svg/close-button.svg" alt="close-icon">
 							</button>
 						</RouterLink>
-
 					</div>
 					
 					<form>
-						<section>
+						<section class="ticket-container__form">
 							<label for="reporter">Reporter</label>
 							<transition name="animation">
-							<input id="reporter" name="reporter" type="text" v-model="bugData.reporter">
+							<input class="ticket-container__form-reporter" id="reporter" name="reporter" type="text" v-model="bugData.reporter">
 							</transition>
 
 							<label for="assignee">Assignee</label>
@@ -31,7 +26,7 @@
 							</select>
 
 							<label for="dueDate">Due Date:</label>
-							<input type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
+							<input class="ticket-container__form-dueData" type="date" id="dueDate" name="dueDate" v-model="bugData.dueDate">
 
 							<label for="description">Description</label> 
 							<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
@@ -55,9 +50,11 @@
 								<option value="done">Done</option>
 							</select>
 								
-							<!-- <router-link :to="{ name:'dashboard' }"> -->
-								<input type="submit" @click.prevent="handleSubmit"> 
-							<!-- </router-link> -->
+							<RouterLink :to="{ name:'bugsBoard' }">
+								<button>
+									<input class="ticket-container__form-submit" type="submit" value="submit" @click.prevent="handleSubmit"> 
+								</button>
+							</RouterLink>
 						</section>
 					</form>
 				</div>
@@ -73,12 +70,6 @@
 	import viewMixin from '../mixins/viewMixin.js';
 	export default {
 		mixins: [viewMixin],
-
-		props: {
-			openTicketSection: { String}
-			// toggleTicketSection: { type: Boolean },
-			// ticketSlug: { String }
-		},
 
 		data() {
 			return {
@@ -97,12 +88,7 @@
 		async created() {
 			await this.changeBugContent()
 			console.log(this.$route.path)
-			// await this.$watch(this.changeBugContent)
 		},
-
-		// async mounted() {
-		// 	await this.changeBugContent()
-		// },
 
 		methods: {
 			async changeBugContent() {
@@ -118,7 +104,6 @@
 			},
 
 			handleBugData() {
-				console.log(this.result[0].assignee.name)
 				this.result.map(bug => {
 					if(bug.reporter === null) {
 						this.bugData.reporter = ''
@@ -177,85 +162,22 @@
 </script>
 
 <style>
-	.animation-enter-from
-	{
-		/* opacity: 0;
-        transform: translateX(-250px); */
-	}
-
-	/* .animation-enter-to, */
-	.animation-leave-to {
-		/* opacity: 1;
-        transform: translateX(0); */
-	}
-
-	.animation-enter-active {
-		animation: slide 3s ease-in;
-	}
-
-	.animation-leave-active {
-		animation: slide 3s ease-out;
-	}
-	
-	@keyframes slide {
-		0% {
-			transform: translateX(0) scale(1);
-		}
-
-		70% {
-			transform: translateX(-120px) scale(1.1);
-		}
-
-		100% {
-			transform: translateX(-150px) scale(1);
-		}
-	}
-
-	.slide-panel {
-		/* width: 500px; */
-		/* width: 100%; */
-		
-	}
-
 	.slide-panel__ticket {
-		/* margin-top: 0px;
-		position: fixed;
-        top: 0;
-        right: 0;
-		bottom: 0;
-		width: 700px;
-		max-width: calc(100% - 200px); */
+		height: 100%;
 		z-index: 1000;
-		/* border-left: 1px solid; */
-		/* background: white; */
-		transition: animation 150ms cubic-bezier(0, 0, 0.35, 1);
-	}
-
-	.slide-panel__ticket-overlay {
-		
-		right: 100%;
-		width: 3000px;
-		top: 0;
-		bottom: 0;
-		position: absolute;
-		background-color: rgba(17, 17, 17, 0.7); 
-		/* transition: background .1s ease; */
-		/* pointer-events: none; */
-		/* display: none; */
+		/* transition: slide 150ms cubic-bezier(0, 0, 0.35, 1); */
 	}
 
 	.slide-panel__ticket-content {
-		transition: slide 0.2s;
-		animation: slide cubic-bezier(0.075, 0.82, 0.165, 1);
+		/* transition: slide 0.2s;
+		animation: slide cubic-bezier(0.075, 0.82, 0.165, 1); */
         height: 100%;
 	} 
 
 	.ticket-container {
-		display: -ms-flexbox;
 		display: flex;
-		-ms-flex-direction: column;
 		flex-direction: column;
-		-ms-flex-wrap: nowrap;
+		flex-wrap: nowrap;
 		flex-wrap: nowrap;
 		height: 100%;
 	}
@@ -263,7 +185,7 @@
 	.ticket-container__header {
 		display: flex;
 		justify-content: space-between;
-		padding: 30px;
+		padding: 20px;
 	}
 
 	.ticket-container__header img {
@@ -272,22 +194,23 @@
 
 	.ticket-container form {
 		display: flex;
-		padding: 0 30px;
+		padding: 0 20px;
 	}
 
-	.ticket-container form section {
+	.ticket-container__form {
 		display: flex;
 		flex-direction: column;
 		margin: 10px;
 		width: 500px;
 	}
 
-	.ticket-container form label {
+	.ticket-container__form label {
 		margin: 20px 0 0 0;	
 	}
 
-	.ticket-container form select,
-	.ticket-container form input {
+	.ticket-container__form select,
+	.ticket-container__form-reporter,
+	.ticket-container__form-dueData {
 		padding: 10px;
 		font-size: 15px;
 		border-radius: 10px;
@@ -295,8 +218,24 @@
 		margin: 5px;
 	}
 
-	.ticket__container-multiple-input-container {
-		margin: 20px 0 20px 0;
-	} 
+	.ticket-container__form-submit {
+		color: #fff;
+		font-size: 16px;
+		width: 135px;
+		height: 50px;
+		border: none;
+		margin: 10px;
+		/* padding: 20px; */
+		background: #0272EA; 
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.ticket-container__form-submit:hover {
+		cursor: pointer;
+		background: #094f99;
+		border: white 2px solid;
+	}
 </style>
 
