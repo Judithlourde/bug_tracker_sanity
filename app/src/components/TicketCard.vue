@@ -15,7 +15,7 @@
                 />
                 
                 <StatusDisplay 
-                    :bug-status="filteredBug.status" 
+                    :bug-status="filteredBug.status"  
                 />
 
                 <PriorityDisplay 
@@ -27,7 +27,7 @@
                 />
 
                 <ProgressDisplay 
-                    :progress-display="progress"
+                    :progress-display="filteredBug.status"
                 />
 
                 <DueDateDisplay
@@ -63,38 +63,12 @@
             TicketEdit
         },  
 
-        created() {
-            this.getProgress()
-        },
-
         data() {
             return {
-                bugProgress: this.filteredBug.status,
-                progress: 0,
             }
         },
-        
+
         methods: {
-            getProgress() {
-                console.log(this.filteredBug.status);
-                switch (this.bugProgress) {
-                    case 'done':
-                        this.progress = 100;
-                        break
-
-                    case 'working on it':
-                        this.progress = 60;
-                        break
-
-                    case 'stuck':
-                        this.progress = 40;
-                        break
-
-                    default:
-                        this.progress = 10;
-                }
-            },
-
             changeBugContent() {
                 this.$router.push('/bugsBoard/bug')
             }
