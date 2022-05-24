@@ -1,17 +1,17 @@
 <template>
-	<section class="bugsboard">	
+	<section class="bugsboard-section">	
         <Navbar/>
 		
 		<RouterView />
 		
 		<!-- <div v-if="loading">...</div> -->
 		<!-- <div v-else class="dashboard"> -->
-		<div class="dashboard">
+		<div class="bugsboard">
 			<h1>Bugs Tracker</h1>
-			<div class="dashboard__project-container">
+			<div class="bugsboard__project-container">
 				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> 
 
-					<div class="dashboard__project-container-title">
+					<div class="bugsboard__project-container-title">
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
 							<div :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</div>
@@ -37,7 +37,7 @@
 						/>	
 					</div>	
 
-					<div class="dashboard__project-container-newBug">
+					<div class="bugsboard__project-container-newBug">
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
 							
@@ -75,6 +75,11 @@
 
 	export default {
 		mixins: [viewMixin],
+
+		components: {
+			TicketCard,
+            Navbar
+		},
 
 		data() {
 			return {
@@ -118,19 +123,18 @@
 			uniqueProjects() {
 				return this.$store.getters.sortedProjects;
 			},
-
-
-		},
-		
-		components: {
-			TicketCard,
-            Navbar
 		},
 
 		methods: {
 			async loadBugs() {
 				this.$store.dispatch('fetchAndStoreBugsData');
 			},
+
+			createBug(uniqueProject, index) {
+				this.$store.dispatch('createBug', uniqueProject, index)
+			}
+
+
 
 			// async loadBugs() {
 			// 	await this.sanityFetch(query, { 
@@ -154,71 +158,70 @@
 			// 	this.uniqueProjects = [ ...new Set(this.result.map(({ project }) => project.name)) ]; 
 			// },	
 
-			createBug(uniqueProject, index) {
-				this.projectID = this.projectsResult.find(project => project.name === uniqueProject );
-				console.log(this.projectID._id)
-				sanity.create({
-					_type: 'bug',
-					title: this.bugData[index],
-					slug: {
-						_type: 'slug',
-						current: this.bugData[index]
-										.toLowerCase()
-										.replace(/\s+/g, '-')
-										.slice(0, 200),
-						},
-					project: {
-						_type: 'reference',
-						_ref: this.projectID._id,
-					}
-				})
+			// createBug(uniqueProject, index) {
+			// 	this.projectID = this.projectsResult.find(project => project.name === uniqueProject );
+			// 	console.log(this.projectID._id)
+			// 	sanity.create({
+			// 		_type: 'bug',
+			// 		title: this.bugData[index],
+			// 		slug: {
+			// 			_type: 'slug',
+			// 			current: this.bugData[index]
+			// 							.toLowerCase()
+			// 							.replace(/\s+/g, '-')
+			// 							.slice(0, 200),
+			// 			},
+			// 		project: {
+			// 			_type: 'reference',
+			// 			_ref: this.projectID._id,
+			// 		}
+			// 	})
 				
-				.then(res => {
-					console.log(`Created bug with id: ${res._id}`)
-					this.loadBugs();
-				});
-			},
+			// 	.then(res => {
+			// 		console.log(`Created bug with id: ${res._id}`)
+			// 		this.loadBugs();
+			// 	});
+			// },
 		},	
 	}
 	
 </script>
 
 <style>
-    .bugsboard {
-        display: flex;
-		
+    .bugsboard-section {
+        display: flex;	
     }
 
-	.dashboard {
+	.bugsboard {
 		padding: 20px;
 		width: 100%;
 	}
 
-	.dashboard__project-container {
+	.bugsboard__project-container {
 		width: 100%;
 		height: 80vh;
 		/* overflow: scroll; */
 	}
 
-	.dashboard__project-container-title,
-	.dashboard__project-container-newBug {
+	.bugsboard__project-container-title,
+	.bugsboard__project-container-newBug {
 		display: flex;
         width: 90vw;
 	}
 
-	.dashboard__project-container-title div {
+	.bugsboard__project-container-title div {
 		margin: 20px 0 0 0;
 	}
 
-	.dashboard__project-container-title div,
-	.dashboard__project-container-newBug div {
+	.bugsboard__project-container-title div,
+	.bugsboard__project-container-newBug div {
 		width: 100%;
 		display: flex;
 		font-size: 16px;
 	}
 
-	.dashboard__project-container-title div > *,
-	.dashboard__project-container-newBug div > * {
+	.bugsboard__project-container-title div > *,
+	.bugsboard__project-container-newBug div > * {
 		background-color: rgb(245, 245, 245);
         margin: 1px;
         padding: 5px;
@@ -228,7 +231,7 @@
         align-items: center;	
 	}
 
-	.dashboard__project-container-newBug div > * {
+	.bugsboard__project-container-newBug div > * {
 		padding: 8px;
 	}
 
