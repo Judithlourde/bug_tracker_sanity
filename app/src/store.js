@@ -1,5 +1,4 @@
 import sanity from './sanity.js';
-import query from './groq/bug.groq?raw';
 import viewMixin from './mixins/viewMixin.js';
 import globalQuery from './groq/global.groq?raw';
 
@@ -12,17 +11,13 @@ export default {
 				loading: true,
 				data: null
 			},
-			// projects: {
-			// 	loading: true,
-			// 	data: null
-			// },
 			uniqueProjects:[],
 		};
 	},
 
 	getters: {
 		isLoading(state) {
-			return state.bugs.loading === true;
+			return state.globalData.loading === true;
 		},
 
 		bugsData(state) {
@@ -35,6 +30,10 @@ export default {
 
 		sortedProjects(state) {
 			return state.uniqueProjects
+		},
+
+		bugStatusColor(state) {
+			return state.bug
 		}
 	},
 
@@ -42,49 +41,20 @@ export default {
 		storeBugsData(state, bugsDataFromSanity) {
 			state.globalData.data = bugsDataFromSanity;
 			state.globalData.loading = false;
-			console.log(state.globalData.data.bugs)
 		},
 
-		storeProjectsData(state, projectsDataFromSanity) {
-			state.projects.data = projectsDataFromSanity;
-			state.projects.loading = true;
-			
-		},
-
-		filteredProjects(state) {
-			
+		filteredProjects(state) {	
+			// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
 			state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
 			console.log(state.uniqueProjects)
-			
-		}
+		},
 	},
 	
 	actions: {
 		async fetchAndStoreBugsData({ commit }) {
 			const bugsDataFromSanity = await sanity.fetch(globalQuery);
 			commit('storeBugsData', bugsDataFromSanity);
-			// const projectsDataFromSanity = await sanity.fetch(query, { 
-			// 	type: 'project'
-			// });
-			// commit('storeProjectsData', projectsDataFromSanity);
 			commit('filteredProjects')
-		},
-
-		async loadBugs() {
-			// const resultFromSanity = await this.sanityFetch(query, { 
-			// 	documentType: 'bug'
-			// });
-
-			// await this.sanityFetchProject(projects, { 
-			// 	type: 'project'
-			// });
-
-			// console.log(this.result)
-
-			// this.metaTags({
-			// 	title: 'Bugs Tracker',
-			// })
-			// this.filteredProjects();
 		},
 	}
 };
