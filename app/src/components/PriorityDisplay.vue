@@ -1,6 +1,22 @@
 <template>
-    <div v-if="priority" class="priority-container" :style="{ backgroundColor: color }">{{ priority }}</div>
-    <div v-else></div>
+    <section class="priority-container">
+        <div class="priority-container__background-color" v-if="priority === 'critical'"  :style="{ backgroundColor: 'rgba(226, 67, 92, 1)' }">
+            <div>{{ priority }}</div>
+        </div>
+
+        <div class="priority-container__background-color" v-if="priority === 'high'" :style="{ backgroundColor: 'rgba(0, 200, 117, 1)' }">
+            <div>{{ priority }}</div>
+        </div>
+
+        <div class="priority-container__background-color" v-if="priority === 'low'" :style="{ backgroundColor: 'rgba(255, 203, 0, 1)' }">
+            <div>{{ priority }}</div>
+        </div>
+
+        <div class="priority-container__background-color" v-if="priority === 'medium'" :style="{ backgroundColor: 'rgba(86, 155, 253, 1)' }">
+            <div>{{ priority }}</div>
+        </div>
+        <div v-else></div>
+    </section>
 </template>
 
 <script>
@@ -8,34 +24,6 @@
         props: {
             priority: { String }
         },
-
-        created() {
-            this.getColor();
-        },
-
-        data() {
-            return {
-                color: ''
-            }
-        },
-
-        methods: {
-            getColor() {
-                switch (this.priority) {
-                    case 'critical':
-                        this.color = 'rgba(226, 67, 92, 1)'
-                        break
-                    case 'major':
-                        this.color = 'rgba(0, 200, 117, 1)'
-                        break
-                    case 'low':
-                        this.color = 'rgba(255, 203, 0, 1)'
-                        break
-                    default:
-                        this.color = 'rgba(86, 155, 253, 1)'
-                }
-            }
-        }
     }
 </script>
 
@@ -46,12 +34,14 @@
         font-size: 16px;
     }
 
-    .priority-container__stars {
+    .priority-container__background-color {
+        width: 100%;
+        height: 100%;
         display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
     }
 
-    .priority-container__stars h3 {
-        margin: 7px;
-        padding: 0;
-    }
+    
 </style>
