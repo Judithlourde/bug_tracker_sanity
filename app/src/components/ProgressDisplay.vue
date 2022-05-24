@@ -1,7 +1,10 @@
 <template>
     <div class="progress-display">
         <div class="progress-display__progress-bar">
-            <div v-if="progressDisplay" class="progress-display__progress-bar-indicator" :style="{ width: progressDisplay + '%' }"></div>
+            <div v-if="progressDisplay === 'done'" class="progress-display__progress-bar-indicator" :style="{ width: '100%' }"></div>
+            <div v-if="progressDisplay === 'working on it'" class="progress-display__progress-bar-indicator" :style="{ width: '60%' }"></div>
+            <div v-if="progressDisplay === 'stuck'" class="progress-display__progress-bar-indicator" :style="{ width: '40%' }"></div>
+            <div v-if="progressDisplay === 'not started yet'" class="progress-display__progress-bar-indicator" :style="{ width: '10%' }"></div>
             <div v-else></div>
         </div>
     </div>
@@ -10,7 +13,7 @@
 <script>
     export default {
         props: {
-            progressDisplay: { Number }
+            progressDisplay: { String }
         }
     }
 </script>
