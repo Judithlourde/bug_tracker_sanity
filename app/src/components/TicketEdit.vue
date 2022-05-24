@@ -1,6 +1,8 @@
 <template>
 	<section class="slide-panel">
+		<div class="slide-panel__ticket-overlay"></div>
 		<div v-if="loading">...</div> 
+
 		<div v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
 			<div class="slide-panel__ticket-content">	
 				<div class="ticket-container">
@@ -16,9 +18,9 @@
 					<form>
 						<section class="ticket-container__form">
 							<label for="reporter">Reporter</label>
-							<transition name="animation">
-							<input class="ticket-container__form-reporter" id="reporter" name="reporter" type="text" v-model="bugData.reporter">
-							</transition>
+							<select id="reporter" name="reporter" v-model="bugData.reporter">
+								<option v-for="projectMember in bug.project.projectMembers" :key="projectMember._id" :value="projectMember.name">{{ `${projectMember.name}` }}</option>
+							</select>
 
 							<label for="assignee">Assignee</label>
 							<select id="assignee" name="assignee" v-model="bugData.assignee">
@@ -81,7 +83,10 @@
 					reporter: '',
 					assignee: '',
 				},
-				projectMember: '',
+				reporterData: '',
+				assigneeData: '',
+				reporterID: '',
+				assigneeID: ''
 			}
 		},
 
@@ -127,25 +132,41 @@
 			},
 
 			handleSubmit() {
-				this.projectMember = this.result[0].project.projectMembers.find(member => member.name === this.bugData.assignee);
-					const assignee = {
-							_id: this.projectMember._id,
+				this.reporterData = this.result[0].project.projectMembers.find(member => member.name === this.bugData.reporter);
+				this.assigneeData = this.result[0].project.projectMembers.find(member => member.name === this.bugData.assignee);
+				console.log(this.projectMember)
+					const reporter = {
+						_id: this.reporterData._id,
+						_type: 'employee',
+						name: this.bugData.reporter
+					}
+					sanity.createIfNotExists(reporter).then((res) => {
+						this.reporterID  = res._id;
+						// this.updateBug();
+						const assignee = {
+							_id: this.assigneeData._id,
 							_type: 'employee',
 							name: this.bugData.assignee,
 						}
-					sanity.createIfNotExists(assignee).then((res) => {
-						this.assigneeID = res._id;
-						this.updateBug();
+						sanity.createIfNotExists(assignee).then((res) => {
+							this.assigneeID = res._id;
+							this.updateBug();
+						});
+						// this.updateBug();
 					});
-					this.updateBug();
 			},
 
 			updateBug() {
 				sanity
 					.patch(this.result[0]._id)
+					.set({ reporter: {
+								_type: 'reference',
+								_ref: this.reporterID,
+							}, 
+						})
 					.set({ assignee: {
 								_type: 'reference',
-								_ref: this.projectMember._id,
+								_ref: this.assigneeID,
 							}, 
 						})
 					.set({ description: this.bugData.description, })
@@ -154,6 +175,7 @@
 					.set({ dueDate: this.bugData.dueDate, })
 					.commit()
 					.then(updatedDocument => {
+						this.$store.dispatch('fetchAndStoreBugsData');
 						// console.log('I just updated document:', updatedDocument);
 					});
 			},
@@ -173,6 +195,20 @@
 		animation: slide cubic-bezier(0.075, 0.82, 0.165, 1); */
         height: 100%;
 	} 
+
+	.slide-panel__ticket-overlay::-moz-focus-outer {
+		right: 100%;
+		width: 3000px;
+		top: 0;
+		bottom: 0;
+		position: absolute;
+		background-color: rgba(17, 17, 17, 0.7); 
+		/* transition: background .1s ease; */
+		/* pointer-events: none; */
+		/* display: none; */
+	}
+
+
 
 	.ticket-container {
 		display: flex;
