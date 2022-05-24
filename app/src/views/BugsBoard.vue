@@ -4,9 +4,8 @@
 		
 		<RouterView />
 		
-		<!-- <div v-if="loading">...</div> -->
-		<!-- <div v-else class="dashboard"> -->
-		<div class="bugsboard">
+		<div v-if="loading">...</div>
+		<div v-else class="bugsBoard">
 			<h1>Bugs Tracker</h1>
 			<div class="bugsboard__project-container">
 				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> 
@@ -68,8 +67,6 @@
 <script>
     import Navbar from '../components/Navbar.vue';
 	import sanity from '../sanity.js';
-	import query from '../groq/bug.groq?raw';
-	import projects from '../groq/project.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
 
@@ -131,57 +128,37 @@
 			},
 
 			createBug(uniqueProject, index) {
-				this.$store.dispatch('createBug', uniqueProject, index)
-			}
+				this.$store.dispatch('createBug', uniqueProject)
+			},
 
+			bugTitle() {
+				this.$store.dispatch('createBugTitle', this.bugData);
+			},	
 
-
-			// async loadBugs() {
-			// 	await this.sanityFetch(query, { 
-			// 		documentType: 'bug'
-			// 	});
-
-			// 	await this.sanityFetchProject(projects, { 
-			// 		type: 'project'
-			// 	});
-
-			// 	console.log(this.result)
-
-			// 	this.metaTags({
-			// 		title: 'Bugs Tracker',
-			// 	})
-			// 	this.filteredProjects();
-			// },
-
-			// filteredProjects() {
-			// 	// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-			// 	this.uniqueProjects = [ ...new Set(this.result.map(({ project }) => project.name)) ]; 
-			// },	
-
-			// createBug(uniqueProject, index) {
-			// 	this.projectID = this.projectsResult.find(project => project.name === uniqueProject );
-			// 	console.log(this.projectID._id)
-			// 	sanity.create({
-			// 		_type: 'bug',
-			// 		title: this.bugData[index],
-			// 		slug: {
-			// 			_type: 'slug',
-			// 			current: this.bugData[index]
-			// 							.toLowerCase()
-			// 							.replace(/\s+/g, '-')
-			// 							.slice(0, 200),
-			// 			},
-			// 		project: {
-			// 			_type: 'reference',
-			// 			_ref: this.projectID._id,
-			// 		}
-			// 	})
+			createBug(uniqueProject, index) {
+				this.projectID = this.projects.find(project => project.name === uniqueProject );
+				console.log(this.projectID._id)
+				sanity.create({
+					_type: 'bug',
+					title: this.bugData[index],
+					slug: {
+						_type: 'slug',
+						current: this.bugData[index]
+										.toLowerCase()
+										.replace(/\s+/g, '-')
+										.slice(0, 200),
+						},
+					project: {
+						_type: 'reference',
+						_ref: this.projectID._id,
+					}
+				})
 				
-			// 	.then(res => {
-			// 		console.log(`Created bug with id: ${res._id}`)
-			// 		this.loadBugs();
-			// 	});
-			// },
+				.then(res => {
+					console.log(`Created bug with id: ${res._id}`)
+					this.$store.dispatch('fetchAndStoreBugsData');
+				});
+			},
 		},	
 	}
 	
