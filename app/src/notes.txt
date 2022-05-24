@@ -1,4 +1,13 @@
+//////////////////// Stars ***********************
+.priority-container__stars {
+        display: flex;
+    }
 
+    .priority-container__stars h3 {
+        margin: 7px;
+        padding: 0;
+    }
+****************** overlay **********************@@@
 .slide-panel__ticket-overlay {
 		
 		right: 100%;
@@ -704,3 +713,21 @@ documentation[] {
 		border: none;
 	}
 </style>
+ getProgress() {
+                switch (this.bugProgress) {
+                    case 'done':
+                        this.progress = 100;
+                        break
+
+                    case 'working on it':
+                        this.progress = 60;
+                        break
+
+                    case 'stuck':
+                        this.progress = 40;
+                        break
+
+                    default:
+                        this.progress = 10;
+                }
+            },
