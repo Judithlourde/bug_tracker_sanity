@@ -10,10 +10,14 @@
 </template>
 
 <style>
+	/* Small screen devices (968px and below) */
+    @media screen and (max-width: 968px) {
+		.navigation {
+			width: 17%;
+		}
+	}
 		
 	.navigation {
-		/* height: auto; */
-		/* width: 20%; */
 		background-color: #292F4C;
 		color: white;
 		text-align: center;
@@ -30,7 +34,7 @@
 	}
 
 	.navigation__logo-container {
-		width: 100px;
+		width: 75px;
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -42,7 +46,6 @@
 
 	.controls-container div a img {
 		width: 20px;
-		color: white;
 		padding: 5px 0;
 	}
 </style>
