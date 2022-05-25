@@ -1,9 +1,10 @@
 <template>
 	<section class="slide-panel">
-		<div class="slide-panel__ticket-overlay"></div>
+		<!-- Toggling the side-panel background color by dynamic class name -->
+		<div @click="openSidePanel" :class="{ sidePanelVisible: !isSidePanelVisible }" class="slide-panel__ticket-overlay"></div>
 		<div v-if="loading">...</div> 
 
-		<div v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
+		<div @click="closeSidePanel" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
 			<div class="slide-panel__ticket-content">	
 				<div class="ticket-container">
 					<div class="ticket-container__header">
@@ -52,11 +53,13 @@
 								<option value="done">Done</option>
 							</select>
 								
-							<RouterLink :to="{ name:'bugsBoard' }">
-								<button>
+							<div class="ticket-container__form-footer">
+								<button @click="closeTicketSection">
 									<input class="ticket-container__form-submit" type="submit" value="submit" @click.prevent="handleSubmit"> 
 								</button>
-							</RouterLink>
+
+								<button @click="deleteBug(); closeTicketSection()" class="ticket-container__form-delete">Delete</button>
+							</div>
 						</section>
 					</form>
 				</div>
@@ -75,6 +78,7 @@
 
 		data() {
 			return {
+				isSidePanelVisible: false,
 				bugData: {
 					description: '',
 					priority: '',
@@ -96,16 +100,24 @@
 		},
 
 		methods: {
+			openSidePanel() {
+				this.isSidePanelVisible = true;
+			},
+
+			closeSidePanel() {
+				this.isSidePanelVisible = false;
+			},
+
 			async changeBugContent() {
 				await this.sanityFetch(query, { 
 					slug: this.$route.params.ticketSlug 
 				});
-				console.log(this.$route.params.ticketSlug)
+				console.log(this.$route.params.ticketSlug)  // Delete after
 				this.handleBugData();
 			},
 
 			closeTicketSection() {
-				this.$router.back('/')
+				this.$router.push('/bugsBoard')
 			},
 
 			handleBugData() {
@@ -174,11 +186,20 @@
 					.set({ status: this.bugData.status, })
 					.set({ dueDate: this.bugData.dueDate, })
 					.commit()
-					.then(updatedDocument => {
+					.then(() => {
 						this.$store.dispatch('fetchAndStoreBugsData');
-						// console.log('I just updated document:', updatedDocument);
 					});
 			},
+
+			deleteBug() {
+				    sanity.delete(this.result[0]._id)
+					.then(() => {
+						this.$store.dispatch('fetchAndStoreBugsData');
+					})
+					.catch((err) => {
+						console.error('Delete failed: ', err.message)
+					})
+			}
 		},
 	}
 </script>
@@ -196,19 +217,17 @@
         height: 100%;
 	} 
 
-	.slide-panel__ticket-overlay::-moz-focus-outer {
+	.sidePanelVisible {
 		right: 100%;
 		width: 3000px;
 		top: 0;
 		bottom: 0;
 		position: absolute;
-		background-color: rgba(17, 17, 17, 0.7); 
+		background-color: rgba(41, 47, 76, 0.5); 
 		/* transition: background .1s ease; */
 		/* pointer-events: none; */
 		/* display: none; */
 	}
-
-
 
 	.ticket-container {
 		display: flex;
@@ -240,6 +259,11 @@
 		width: 500px;
 	}
 
+	.ticket-container__form textarea {
+		font-family: inherit;
+		padding: 10px;
+	}
+
 	.ticket-container__form label {
 		margin: 20px 0 0 0;	
 	}
@@ -253,8 +277,13 @@
 		border: 1.5px solid rgb(218, 218, 218);
 		margin: 5px;
 	}
+	.ticket-container__form-footer {
+		display: flex;
+		padding-top: 10px;
+	}
 
-	.ticket-container__form-submit {
+	.ticket-container__form-submit,
+	.ticket-container__form-delete {
 		color: #fff;
 		font-size: 16px;
 		width: 135px;
@@ -268,7 +297,8 @@
 		align-items: center;
 	}
 
-	.ticket-container__form-submit:hover {
+	.ticket-container__form-submit:hover,
+	.ticket-container__form-delete:hover {
 		cursor: pointer;
 		background: #094f99;
 		border: white 2px solid;
