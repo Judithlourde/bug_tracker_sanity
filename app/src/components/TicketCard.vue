@@ -10,27 +10,27 @@
                     </router-link>
                 </div>
 
-                <TicketOwnerDisplay 
+                <TicketOwnerDisplay class="ticketCard__reporter"
                     :ticket-owner="filteredBug.reporter"
                 />
                 
-                <StatusDisplay 
+                <StatusDisplay class="ticketCard__status"
                     :bug-status="filteredBug.status"  
                 />
 
-                <PriorityDisplay 
+                <PriorityDisplay class="ticketCard__priority"
                     :priority="filteredBug.priority"
                 />
 
-                <AssigneeDisplay 
+                <AssigneeDisplay class="ticketCard__assignee"
                     :assignee="filteredBug.assignee"
                 />
 
-                <ProgressDisplay 
+                <ProgressDisplay class="ticketCard__progress"
                     :progress-display="filteredBug.status"
                 />
 
-                <DueDateDisplay
+                <DueDateDisplay class="ticketCard__dueDate"
                     :due-date="filteredBug.dueDate"
                 />
             </div>
@@ -83,10 +83,6 @@
         width: 90vw;
     }
 
-    .ticketCard a h3 {
-        /* overflow: scroll; */
-    }
-
     .ticketCard > div {
         width: 100%;
         display: flex;
@@ -103,12 +99,26 @@
     .ticketCard__title {
         font-size: 16px;
         color: inherit;
-        text-decoration: none;       
+        text-decoration: none; 
+        /* width: 100%;       */
     }
 
     .ticketCard__color {
         width: 10px !important;
         padding: 5px !important;
         margin: 2px;
+    }
+
+    /* Small screen devices (968px and below) */
+    @media screen and (max-width: 968px) {
+        .ticketCard__title,
+        .ticketCard__reporter,
+        .ticketCard__status,
+        .ticketCard__priority,
+        .ticketCard__assignee,
+        .ticketCard__progress,
+        .ticketCard__dueDate {
+            min-width: 200px;
+        }
     }
 </style>

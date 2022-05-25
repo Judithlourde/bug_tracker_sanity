@@ -29,6 +29,7 @@
 
 <style>
     .priority-container {
+        /* min-width: 200px; */
         display: flex;
         justify-content: center;
         font-size: 16px;
@@ -42,6 +43,4 @@
         align-items: center;
         color: white;
     }
-
-    
 </style>
