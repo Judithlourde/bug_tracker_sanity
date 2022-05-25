@@ -9,7 +9,7 @@
 
 <style>
     .bug-layout {
-        transform: translateX(0);
+        /* transform: translateX(0); */
         position: absolute;
         top: 0;
         bottom: 0;
@@ -23,7 +23,7 @@
         background-color: #fff;
     }
 
-    .slide-side-enter-from
+    /* .slide-side-enter-from
 	{
 		opacity: 0;
         transform: translateY(-250px);
@@ -40,5 +40,5 @@
 
 	.slide-side-leave-active {
 		animation: slide 3s ease-out;
-	}
+	} */
 </style>
