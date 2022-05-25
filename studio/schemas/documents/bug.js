@@ -77,7 +77,11 @@ export default {
 		{
 			title: 'Due Date',
 			name: 'dueDate',
-			type: 'date'
+			type: 'date',
+			options: {
+				dateFormat: ' MMM D YYYY',
+				calendarTodayLabel: 'Today'
+			  }
 		},
 		{
 			title: 'Project',
