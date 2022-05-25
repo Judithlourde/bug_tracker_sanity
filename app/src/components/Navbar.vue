@@ -10,8 +10,9 @@
 </template>
 
 <style>
+		
 	.navigation {
-		height: 100vh;
+		/* height: auto; */
 		/* width: 20%; */
 		background-color: #292F4C;
 		color: white;
