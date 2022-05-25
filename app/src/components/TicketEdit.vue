@@ -2,7 +2,9 @@
 	<section class="slide-panel">
 		<!-- Toggling the side-panel background color by dynamic class name -->
 		<div @click="openSidePanel" :class="{ sidePanelVisible: !isSidePanelVisible }" class="slide-panel__ticket-overlay"></div>
-		<div v-if="loading">...</div> 
+		<div v-if="loading">
+			<LoadingPage />	
+		</div> 
 
 		<div @click="closeSidePanel" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
 			<div class="slide-panel__ticket-content">	
@@ -73,8 +75,13 @@
 	import sanity from '../sanity.js';
 	import query from '../groq/ticketPage.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
+	import LoadingPage from '../components/LoadingPage.vue'
 	export default {
 		mixins: [viewMixin],
+
+		components: {
+			LoadingPage
+		},
 
 		data() {
 			return {

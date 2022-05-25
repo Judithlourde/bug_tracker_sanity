@@ -4,11 +4,13 @@
 		
 		<RouterView />
 		
-		<div v-if="loading">...</div>
+		<div v-if="loading">
+			<LoadingPage />
+		</div>
 		<div v-else class="bugsBoard">
 			<h1>Bugs Tracker</h1>
 			<div class="bugsboard__project-container">
-				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> 
+				<div class="test" v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> 
 
 					<div class="bugsboard__project-container-title">
 						<div>
@@ -54,7 +56,6 @@
             						<div></div>
         						</div>
 							</div>
-							
 							<div></div>
 						</div>
 					</div>
@@ -69,13 +70,15 @@
 	import sanity from '../sanity.js';
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
+	import LoadingPage from '../components/LoadingPage.vue';
 
 	export default {
 		mixins: [viewMixin],
 
 		components: {
 			TicketCard,
-            Navbar
+            Navbar,
+			LoadingPage
 		},
 
 		data() {
@@ -99,8 +102,7 @@
 
 			this.metaTags({
 				title: 'Bugs Tracker',
-			});
-			
+			});	
 		},
 
 		computed: {
@@ -161,7 +163,7 @@
         display: flex;	
 		height: 100%;
     	width: 100vw;
-		overflow-x: scroll ;
+		overflow-x: scroll;
     }
 
 	.bugsboard {
@@ -205,6 +207,26 @@
 
 	.bugsboard__project-container-newBug div > * {
 		padding: 8px;
+	}
+
+	/* small screen devices (968px and below) */
+    @media screen and (max-width: 968px) {
+		.bugsboard__project-container-title div:nth-child(2),
+		.bugsboard__project-container-title div:nth-child(3),
+		.bugsboard__project-container-title div:nth-child(4),
+		.bugsboard__project-container-title div:nth-child(5),
+		.bugsboard__project-container-title div:nth-child(6),
+		.bugsboard__project-container-title div:nth-child(7),
+		.bugsboard__project-container-title div:nth-child(8),
+		.bugsboard__project-container-newBug div:nth-child(2),
+		.bugsboard__project-container-newBug div:nth-child(3),
+		.bugsboard__project-container-newBug div:nth-child(4),
+		.bugsboard__project-container-newBug div:nth-child(5),
+		.bugsboard__project-container-newBug div:nth-child(6),
+		.bugsboard__project-container-newBug div:nth-child(7),
+		.bugsboard__project-container-newBug div:nth-child(8) {
+			min-width: 200px;
+		} 
 	}
 
 	.edit input {
