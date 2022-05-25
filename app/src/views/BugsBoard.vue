@@ -82,7 +82,6 @@
 			return {
 				results: [],
 				uniqueProjects:[],
-				edit: false,
 				bugData: [],
 				projectID: '',
 				colors: [
@@ -125,14 +124,6 @@
 		methods: {
 			async loadBugs() {
 				this.$store.dispatch('fetchAndStoreBugsData');
-			},
-
-			createBug(uniqueProject, index) {
-				this.$store.dispatch('createBug', uniqueProject)
-			},
-
-			bugTitle() {
-				this.$store.dispatch('createBugTitle', this.bugData);
 			},	
 
 			createBug(uniqueProject, index) {
@@ -157,6 +148,7 @@
 				.then(res => {
 					console.log(`Created bug with id: ${res._id}`)
 					this.$store.dispatch('fetchAndStoreBugsData');
+					this.bugData[index] = ''
 				});
 			},
 		},	
@@ -167,6 +159,9 @@
 <style>
     .bugsboard-section {
         display: flex;	
+		height: 100%;
+    	width: 100vw;
+		overflow-x: scroll ;
     }
 
 	.bugsboard {
@@ -176,8 +171,8 @@
 
 	.bugsboard__project-container {
 		width: 100%;
-		height: 80vh;
-		/* overflow: scroll; */
+		/* height: 80vh; */
+		overflow: scroll;
 	}
 
 	.bugsboard__project-container-title,

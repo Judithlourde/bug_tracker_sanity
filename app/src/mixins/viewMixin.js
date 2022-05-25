@@ -20,7 +20,7 @@ export default {
 			this.projectsResult = await sanity.fetch(projects, params);
 			this.loading = false;
 			console.log(this.projectsResult)
-		},
+		},  
 
 		metaTags(meta) {
 			const currentURL = window.location.origin + this.$route.path;
