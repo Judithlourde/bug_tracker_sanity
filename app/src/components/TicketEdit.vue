@@ -1,12 +1,14 @@
 <template>
-	<section class="slide-panel">
+	<section :class="[ animateSlide ? 'open' : 'slide-panel' ]">
+	<!-- open: animateSlide  -->
+	<!-- class="slide-panel" -->
 		<!-- Toggling the side-panel background color by dynamic class name -->
 		<div @click="openSidePanel" :class="{ sidePanelVisible: !isSidePanelVisible }" class="slide-panel__ticket-overlay"></div>
 		<div v-if="loading">
 			<LoadingPage />	
 		</div> 
 
-		<div @click="closeSidePanel" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
+		<div @click="closeSidePanel(); slidePanelClose()" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
 			<div class="slide-panel__ticket-content">	
 				<div class="ticket-container">
 					<div class="ticket-container__header">
@@ -86,6 +88,7 @@
 		data() {
 			return {
 				isSidePanelVisible: false,
+				sidePanelAnimate: false,
 				bugData: {
 					description: '',
 					priority: '',
@@ -106,6 +109,12 @@
 			console.log(this.$route.path)
 		},
 
+		computed: {
+			animateSlide() {
+				return this.$store.getters.slidePanelAnimate;
+			},
+		},
+
 		methods: {
 			openSidePanel() {
 				this.isSidePanelVisible = true;
@@ -113,13 +122,17 @@
 
 			closeSidePanel() {
 				this.isSidePanelVisible = false;
+				this.sidePanelAnimate = false;
+			},
+
+			slidePanelClose() {
+				this.$store.dispatch('slideClose')
 			},
 
 			async changeBugContent() {
 				await this.sanityFetch(query, { 
 					slug: this.$route.params.ticketSlug 
 				});
-				console.log(this.$route.params.ticketSlug)  // Delete after
 				this.handleBugData();
 			},
 
@@ -134,13 +147,11 @@
 					} else {
 						this.bugData.reporter = bug.reporter.name
 					}
-					
 					if(bug.assignee === null) {
 						this.bugData.assignee = ''
 					} else {
 						this.bugData.assignee = bug.assignee.name;
 					}
-					
 					this.bugData.dueDate = bug.dueDate;
 					this.bugData.description = bug.description;
 					this.bugData.priority = bug.priority;
@@ -212,16 +223,31 @@
 </script>
 
 <style>
+	.open {
+		box-shadow: 0px 0px 10px 0px black;
+		transform: none;
+		z-index: 1000;
+	}
+
+	.slide-panel {
+		height: 100%;
+		/* position: fixed;
+		top: 0;
+		bottom: 0;
+		right: 0; */
+		transform: translateX(100%);
+		transition: transform 250ms cubic-bezier(0, 0, 0.35, 1);
+		/* max-width: calc(100% - 200px); */
+	}
+
+	
 	.slide-panel__ticket {
 		height: 100%;
-		z-index: 1000;
-		/* transition: slide 150ms cubic-bezier(0, 0, 0.35, 1); */
 	}
 
 	.slide-panel__ticket-content {
-		/* transition: slide 0.2s;
-		animation: slide cubic-bezier(0.075, 0.82, 0.165, 1); */
         height: 100%;
+		z-index: 1000;
 	} 
 
 	.sidePanelVisible {

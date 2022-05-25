@@ -6,7 +6,7 @@
                 
                 <div class="ticketCard__title">
                     <router-link :to="{ name: 'ticketPage', params: { ticketSlug: filteredBug.slug.current }}">
-                        <button @click="changeBugContent">{{ filteredBug.title }} </button>
+                        <button @click="changeBugContent(); animateSlidePanel()">{{ filteredBug.title }} </button>
                     </router-link>
                 </div>
 
@@ -71,6 +71,10 @@
         methods: {
             changeBugContent() {
                 this.$router.push('/bugsBoard/bug')
+            },
+
+            animateSlidePanel() {
+                this.$store.dispatch('trueAnimateSlidePanel');
             }
         }
     }
@@ -81,6 +85,15 @@
     .ticketCard {
         display: flex;
         width: 90vw;
+    }
+
+    .ticketCard:hover {
+        background-color: #e6e9ef;
+    }
+
+    .ticketCard > div:hover {
+        margin: 2px 1px;
+        background-color: #e6e9ef;
     }
 
     .ticketCard > div {
@@ -96,6 +109,7 @@
         display: flex;
         align-items: center;
     }
+
     .ticketCard__title {
         font-size: 16px;
         color: inherit;
@@ -107,6 +121,11 @@
         width: 10px !important;
         padding: 5px !important;
         margin: 2px;
+    }
+
+    .ticketCard__title:hover {
+        background-color: #e6e9ef;
+        cursor: pointer;
     }
 
     /* Small screen devices (968px and below) */
