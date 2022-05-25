@@ -24,9 +24,7 @@
     padding: 40px;
 }
 .loading__title {
-    color: var(--main-color);
     font-size: 4em;
-    font-family: var(--main-font);
     padding: 20px;
 }
 .loading__container {
@@ -50,15 +48,16 @@
     animation-delay: 0.9s;
 } */
 @keyframes loading {
-   0%, 100%  {
-       transform: scale(0.2);
+    0%, 100%  {
+        transform: scale(0.2);
+        }
+    50%  {
+        transform: scale(1);
        }
-   50%  {
-       transform: scale(1);
-       }
+    /* 100% {
+        transform: rotate(2turn);
+    } */
 }
 
-/* 100% {
-    transform: rotate(2turn);
-} */
+
 </style>
