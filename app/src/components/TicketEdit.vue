@@ -1,14 +1,12 @@
 <template>
-	<section :class="[ animateSlide ? 'open' : 'slide-panel' ]">
-	<!-- open: animateSlide  -->
-	<!-- class="slide-panel" -->
+	<section class="slide-panel">
 		<!-- Toggling the side-panel background color by dynamic class name -->
 		<div @click="openSidePanel" :class="{ sidePanelVisible: !isSidePanelVisible }" class="slide-panel__ticket-overlay"></div>
 		<div v-if="loading">
 			<LoadingPage />	
 		</div> 
 
-		<div @click="closeSidePanel(); slidePanelClose()" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
+		<div @click="closeSidePanel" v-else class="slide-panel__ticket" v-for="bug in result" :key="bug._id"> 
 			<div class="slide-panel__ticket-content">	
 				<div class="ticket-container">
 					<div class="ticket-container__header">
@@ -85,10 +83,13 @@
 			LoadingPage
 		},
 
+		props: {
+			ticketAnimation: { Boolean }
+		},
+
 		data() {
 			return {
 				isSidePanelVisible: false,
-				sidePanelAnimate: false,
 				bugData: {
 					description: '',
 					priority: '',
@@ -106,14 +107,13 @@
 
 		async created() {
 			await this.changeBugContent()
-			console.log(this.$route.path)
 		},
 
-		computed: {
-			animateSlide() {
-				return this.$store.getters.slidePanelAnimate;
-			},
-		},
+		 computed: {
+            stylingTodoView() {
+                return this.ticketAnimation = !this.ticketAnimation
+            },
+        },
 
 		methods: {
 			openSidePanel() {
@@ -122,11 +122,6 @@
 
 			closeSidePanel() {
 				this.isSidePanelVisible = false;
-				this.sidePanelAnimate = false;
-			},
-
-			slidePanelClose() {
-				this.$store.dispatch('slideClose')
 			},
 
 			async changeBugContent() {
@@ -223,24 +218,6 @@
 </script>
 
 <style>
-	.open {
-		box-shadow: 0px 0px 10px 0px black;
-		transform: none;
-		z-index: 1000;
-	}
-
-	.slide-panel {
-		height: 100%;
-		/* position: fixed;
-		top: 0;
-		bottom: 0;
-		right: 0; */
-		transform: translateX(100%);
-		transition: transform 250ms cubic-bezier(0, 0, 0.35, 1);
-		/* max-width: calc(100% - 200px); */
-	}
-
-	
 	.slide-panel__ticket {
 		height: 100%;
 	}
@@ -257,9 +234,6 @@
 		bottom: 0;
 		position: absolute;
 		background-color: rgba(41, 47, 76, 0.5); 
-		/* transition: background .1s ease; */
-		/* pointer-events: none; */
-		/* display: none; */
 	}
 
 	.ticket-container {
