@@ -1,5 +1,5 @@
 <template>
-    <TicketEdit />
+    <TicketEdit/>
 </template>
 
 <script>
@@ -10,3 +10,6 @@
         },
     }
 </script>
+
+<style>
+</style>
