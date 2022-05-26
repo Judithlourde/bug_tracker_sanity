@@ -12,7 +12,6 @@ export default {
 				data: null
 			},
 			uniqueProjects:[],
-			animateSlide: false,
 		};
 	},
 
@@ -32,14 +31,6 @@ export default {
 		sortedProjects(state) {
 			return state.uniqueProjects;
 		},
-
-		bugStatusColor(state) {
-			return state.bug;
-		},
-
-		slidePanelAnimate(state) {
-			return state.animateSlide;
-		}
 	},
 
 	mutations: {
@@ -53,11 +44,6 @@ export default {
 			state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
 			console.log(state.uniqueProjects)
 		},
-
-		animateSlidePanel(state) {
-			state.animateSlide = !state.animateSlide;
-			console.log(state.animateSlide)
-		}
 	},
 	
 	actions: {
@@ -66,13 +52,5 @@ export default {
 			commit('storeBugsData', bugsDataFromSanity);
 			commit('filteredProjects')
 		},
-
-		trueAnimateSlidePanel({commit}) {
-			commit('animateSlidePanel');
-			
-		},
-		slideClose({commit}) {
-			commit('animateSlidePanel');
-		}
 	}
 }
