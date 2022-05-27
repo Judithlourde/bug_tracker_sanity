@@ -15,7 +15,7 @@ import sanityClient from '@sanity/client'
 export const writeClient = sanityClient({
   projectId: '77fjjy5l',
   dataset: '2022-04-29',
-  token: process.env.VITE_BUG_KEY,
+  token: import.meta.env.VITE_BUG_KEY,
   useCdn: false,
   withCredentials: true,
 })
