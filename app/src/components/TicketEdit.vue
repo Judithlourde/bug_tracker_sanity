@@ -72,6 +72,7 @@
 </template>
 
 <script> 
+	import sanity from '../sanity.js';
 	import query from '../groq/ticketPage.groq?raw';
 	import viewMixin from '../mixins/viewMixin.js';
 	import LoadingPage from '../components/LoadingPage.vue'
