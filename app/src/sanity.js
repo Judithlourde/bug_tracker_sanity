@@ -1,24 +1,28 @@
-import sanityClient from '@sanity/client';
+// import sanityClient from '@sanity/client';
 
-export default sanityClient({
-	projectId: '77fjjy5l',
-	dataset: 'production',
-	apiVersion: '2022-04-29', //dagen prosjektet ble først opprettet/sist oppdatert
-	useCdn: false, //false for localhost, true for netlify
-	withCredentials: true
-});
+// export default sanityClient({
+// 	projectId: '77fjjy5l',
+// 	dataset: 'production',
+// 	apiVersion: '2022-04-29', //dagen prosjektet ble først opprettet/sist oppdatert
+// 	useCdn: true, //false for localhost, true for netlify
+// 	withCredentials: true,
+// 	token: process.env.VITE_BUG_KEY,	
+// });
 
-// import sanityClient from '@sanity/client'
+import sanityClient from '@sanity/client'
 
-// export const writeClient = sanityClient({
-//   projectId: 'some-project-id',
-//   dataset: 'my-dataset',
-//   token: process.env.SANITY_AUTH_TOKEN,
-//   useCdn: false
-// })
+// To write data in Sanity
+export const writeClient = sanityClient({
+  projectId: '77fjjy5l',
+  dataset: '2022-04-29',
+  token: process.env.VITE_BUG_KEY,
+  useCdn: false,
+  withCredentials: true,
+})
 
-// export const readClient = sanityClient({
-//   projectId: 'some-project-id',
-//   dataset: 'my-dataset',
-//   useCdn: true
-// })
+// To fetch data from Sanity
+export const readClient = sanityClient({
+  projectId: '77fjjy5l',
+  dataset: '2022-04-29',
+  useCdn: true
+})
