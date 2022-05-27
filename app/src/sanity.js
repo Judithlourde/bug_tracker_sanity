@@ -12,17 +12,10 @@
 import sanityClient from '@sanity/client'
 
 // To write data in Sanity
-export const writeClient = sanityClient({
-  projectId: '77fjjy5l',
-  dataset: '2022-04-29',
-  token: import.meta.env.VITE_BUG_KEY,
-  useCdn: false,
-  withCredentials: true,
-})
-
-// To fetch data from Sanity
-export const readClient = sanityClient({
-  projectId: '77fjjy5l',
-  dataset: '2022-04-29',
-  useCdn: true
-})
+export default sanityClient({
+	projectId: '77fjjy5l',
+	dataset: "production",
+	apiVersion: '2022-04-29',
+	token: import.meta.env.VITE_BUG_KEY,
+	useCdn: false,
+});
