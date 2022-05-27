@@ -93,8 +93,8 @@
     }
 
     .ticketCard > div:hover {
-        margin: 2px 1px;
-        background-color: #e6e9ef;
+        outline: 2px solid red;
+        /* outline-offset: -10px; */
     }
 
     .ticketCard > div {
