@@ -158,12 +158,11 @@
 
 <style>
 	.animationActive .bug-layout {
-		background-color: #fff;
+		background-color: var(--white);
 		position: absolute;
 		top: 0px;
 		bottom: 0px;
 		right: 0px;
-		/* left: 50px; */
 		border-left: 1px solid;
 		border-color: #c5c7d0;
 		z-index: 1000;
@@ -191,7 +190,7 @@
     }
 
 	.bugsboard {
-		padding: 20px;
+		padding: var(--padding-small);
 		width: 100%;
 		position: fixed;
     	left: 80px;
@@ -208,7 +207,7 @@
 	}
 
 	.bugsboard__project-container-title div {
-		margin: 20px 0 0 0;
+		margin: var(--top-small) 0 0 0;
 	}
 
 	.bugsboard__project-container-title div,
@@ -236,7 +235,7 @@
 	/* small screen devices (968px and below) */
     @media screen and (max-width: 968px) {
 		.bugsboard {
-			padding: 20px;
+			padding: var(--padding-small);
 			width: 100%;
 			position: relative;
 			left: 80px;
