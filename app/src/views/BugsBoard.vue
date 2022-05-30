@@ -1,6 +1,8 @@
 <template>
 	<section class="bugsboard-section">
+		<!-- Dynamic class for the edit page animation -->
 		<div class="animationActive" :class="{ animationActive: ticketAniamation}">
+			<!-- Router view to show edit page -->
 			<RouterView />
 		</div>
 
@@ -14,7 +16,6 @@
 			<h1>Bugs Tracker</h1>
 
 			<div class="bugsboard__project-container">
-				<!-- <div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> -->
 				<div v-for="(uniqueProject, index) in projects" :key="uniqueProject._id">
 
 					<div class="bugsboard__project-container-title">
@@ -36,6 +37,7 @@
 						</div>
 					</div>
 
+					<!-- Filter bugs by projects and send it to ticket card by props -->
 					<div v-for="bug in bugs.filter(bug => bug.project.name === uniqueProject.name)" :key="bug._id">
 						<TicketCard
 							@get-animate="getAnimation"
@@ -61,7 +63,8 @@
 
 <script>
     import Navbar from '../components/Navbar.vue';
-	import sanity from '../sanity.js';
+	// Import sanity for create bugs in sanity form frontend
+	import sanity from '../sanity.js';			
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
 	import LoadingPage from '../components/LoadingPage.vue';
@@ -80,7 +83,6 @@
 		data() {
 			return {
 				ticketAniamation: false,
-				results: [],
 				uniqueProjects:[],
 				bugData: [],
 				projectID: '',
@@ -96,10 +98,9 @@
 
 		async created() {
 			await this.loadBugs();
-			console.log(this.uniqueProjects)
-			this.metaTags({
-				title: 'Bugs Tracker',
-			});
+			// this.metaTags({
+			// 	title: 'Bugs Tracker',
+			// });
 		},
 
 		computed: {
@@ -115,9 +116,9 @@
 				return this.$store.getters.projectsData;
 			},
 
-			uniqueProjects() {
-				return this.$store.getters.sortedProjects;
-			},
+			// uniqueProjects() {
+			// 	return this.$store.getters.sortedProjects;
+			// },
 		},
 
 		methods: {
@@ -130,13 +131,15 @@
 			},
 
 			createBug(uniqueProject, index) {
-				this.projectID = this.projects.find(project => project.name === uniqueProject.name );
+				// Get the project id by find method, It helps to assign bug to the corresponding project
+				this.projectID = this.projects.find(project => project.name === uniqueProject.name );		
 				sanity.create({
 					_type: 'bug',
 					title: this.bugData[index],
 					slug: {
 						_type: 'slug',
-						current: this.bugData[index]
+						// To create bug's slug with hyphen, lowercase in sanity
+						current: this.bugData[index]				
 										.toLowerCase()
 										.replace(/\s+/g, '-')
 										.slice(0, 200),
@@ -148,8 +151,10 @@
 				})
 
 				.then(res => {
+					// Call the fetch function after created new bug
 					this.$store.dispatch('fetchAndStoreBugsData');
-					this.bugData[index] = ''
+					// Remove bug's title from input field after added to bugs column
+					this.bugData[index] = ''			
 				});
 			},
 		},
