@@ -1,14 +1,19 @@
 <template>
 	<nav role="navigation" class="navigation">
 		<div class="navigation__logo-container">
-			<figure>
-				<img src="/svg/bugsTracker-logo.svg" alt="Logo for the bugs tracker">
-				<figcaption>Bugs Tracker</figcaption>
-			</figure>
+			<router-link :to="{ name:'bugsBoard' }">
+				<figure>
+					<img src="/svg/bugsTracker-logo.svg" alt="Logo for the bugs tracker">
+					<figcaption>Bugs Tracker</figcaption>
+				</figure>
+			</router-link>
 
 			<router-link :to="{ name:'loginPage' }">
-				<img src="/svg/person.svg" alt="image for the login page">
-				<!-- <img src="/svg/bugsTracker-logo.svg" alt="Logo for the bugs tracker"> -->
+				<figure>
+					<img src="/svg/person.svg" alt="image for the login page">
+					<figcaption>Login</figcaption>
+				</figure>
+				<!-- <img src="/svg/person.svg" alt="image for the login page"> -->
 			</router-link>
 		</div>
 	</nav>
@@ -19,7 +24,11 @@
 	/* Small screen devices (968px and below) */
     @media screen and (max-width: 968px) {
 		.navigation {
-			width: 17%;
+			width: 15%;
+		}
+
+		.navigation__logo-container {
+			height: 100%;
 		}
 	}
 		
@@ -30,6 +39,10 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
+		position: absolute;
+		bottom: 0;
+		top: 0;
+		z-index: 1000;
 	}
 
 	.navigation__logo-container,
@@ -54,6 +67,11 @@
 
 	.navigation__logo-container figure figcaption {
 		font-size: 12px;
+	}
+
+	.navigation__logo-container a figure figcaption {
+		text-decoration: none;
+		color: white;
 	}
 
 	.navigation__logo-container img {
