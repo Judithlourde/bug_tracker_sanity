@@ -1,8 +1,14 @@
 <template>
-	<nav class="navigation">
+	<nav role="navigation" class="navigation">
 		<div class="navigation__logo-container">
-			<router-link :to="{ name:'loginPage' }">
+			<figure>
 				<img src="/svg/bugsTracker-logo.svg" alt="Logo for the bugs tracker">
+				<figcaption>Bugs Tracker</figcaption>
+			</figure>
+
+			<router-link :to="{ name:'loginPage' }">
+				<img src="/svg/person.svg" alt="image for the login page">
+				<!-- <img src="/svg/bugsTracker-logo.svg" alt="Logo for the bugs tracker"> -->
 			</router-link>
 		</div>
 	</nav>
@@ -35,9 +41,19 @@
 
 	.navigation__logo-container {
 		width: 75px;
+		height: 100%;
 		display: flex;
-		justify-content: center;
+		justify-content: space-between;
 		align-items: center;
+	}
+
+	.navigation__logo-container figure img {
+		width: 80%;
+		padding-bottom: 5px;
+	}
+
+	.navigation__logo-container figure figcaption {
+		font-size: 12px;
 	}
 
 	.navigation__logo-container img {
