@@ -36,7 +36,7 @@
     .status-container {
         display: flex;
         justify-content: center;
-        font-size: 16px;
+        font-size: var(--body);
     }
 
     .status-container__background-color {
@@ -45,6 +45,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: var(--white);
     }
 </style>

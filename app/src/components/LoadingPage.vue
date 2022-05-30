@@ -26,7 +26,7 @@
     }
     .loading__title {
         font-size: 4em;
-        padding: 20px;
+        padding: var(--padding-small);
        
     }
     .loading__container {
@@ -41,9 +41,7 @@
         
     }
     .logo {
-        
         width: 100px;
-        
     }
 
     @keyframes loading {
@@ -68,6 +66,5 @@
 		100%{
 			transform: skew(0deg);
 		}
-    
     }
 </style>

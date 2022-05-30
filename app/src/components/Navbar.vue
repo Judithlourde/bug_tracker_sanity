@@ -46,7 +46,7 @@
 
 	.navigation__logo-container,
 	nav .controls-container {
-		padding: 40px 25px;
+		padding: var(--padding-medium) 25px;
 		display: flex;
 		flex-direction: column;
 	}
@@ -65,7 +65,7 @@
 	}
 
 	.navigation__logo-container figure figcaption {
-		font-size: 12px;
+		font-size: var(--caption);
 	}
 
 	.navigation__logo-container a figure figcaption {
