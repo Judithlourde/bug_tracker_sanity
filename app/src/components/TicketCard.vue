@@ -93,8 +93,8 @@
     }
 
     .ticketCard > div:hover {
-        outline: 2px solid #4e5053;
-        /* outline-offset: -10px; */
+        outline: 2px solid #acaeb1;
+        outline-offset: -5px;
     }
 
     .ticketCard > div {
@@ -114,8 +114,8 @@
     .ticketCard__title {
         font-size: 16px;
         color: inherit;
-        text-decoration: none; 
-        /* width: 100%;       */
+        text-decoration: none;
+        /* position: fixed; */
     }
 
     .ticketCard__color {
