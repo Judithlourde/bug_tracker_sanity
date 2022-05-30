@@ -36,6 +36,7 @@
 							<label for="description">Description</label> 
 							<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
 
+							<!-- Add functionality to send images to sanity -->
 							<!-- <label for="screenshot">Screenshot</label>
 							<input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
 
@@ -247,7 +248,11 @@
 	.ticket-container__header {
 		display: flex;
 		justify-content: space-between;
-		padding: 10px 20px;
+		padding: var(--padding-small);
+	}
+
+	.ticket-container__header h1 {
+		font-size: var(--heading);
 	}
 
 	.ticket-container__header img {
@@ -256,49 +261,50 @@
 
 	.ticket-container form {
 		display: flex;
-		padding: 0 20px;
+		padding: 0 var(--padding-xsmall);
 	}
 
 	.ticket-container__form {
 		display: flex;
 		flex-direction: column;
-		margin: 10px;
+		margin: var(--margin-xsmall);
 		width: 500px;
 		min-width: 200px;
 	}
 
 	.ticket-container__form textarea {
 		font-family: inherit;
-		padding: 10px;
+		padding: var(--padding-xsmall);
 	}
 
 	.ticket-container__form label {
-		margin: 20px 0 0 0;	
+		margin: var(--top-xsmall);	
 	}
 
 	.ticket-container__form select,
 	.ticket-container__form-reporter,
 	.ticket-container__form-dueData {
-		padding: 10px;
+		padding: var(--padding-xsmall);
 		font-size: 15px;
 		border-radius: 10px;
 		border: 1.5px solid rgb(218, 218, 218);
 		margin: 5px;
+		font-family: inherit;
 	}
 
 	.ticket-container__form-footer {
 		display: flex;
-		padding-top: 10px;
+		padding-top: var(--top-xsmall);
 	}
 
 	.ticket-container__form-submit,
 	.ticket-container__form-delete {
 		color: #fff;
-		font-size: 16px;
+		font-size: var(--body);
 		width: 135px;
 		height: 50px;
 		border: none;
-		margin: 10px;
+		margin: var(--margin-xsmall);
 		background: #0272EA; 
 		display: flex;
 		justify-content: center;
@@ -316,15 +322,15 @@
 		/* Small screen devices (968px and below) */
 	@media screen and (max-width: 968px) {
 		.ticket-container__header {
-			padding: 10px 20px;
+			padding: var(--padding-xsmall) 30px;
 		}
 
 		.slide-panel__ticket {
-			font-size: 16px;
+			font-size: var(--body);
 		}
 
 		.ticket-container__form label {
-			margin: 5px 0 0 0;	
+			margin: 5px;	
 		}
 
 		.ticket-container__form-footer {
@@ -335,7 +341,7 @@
 		.ticket-container__form-delete {
 			width: 100px;
 			height: 40px;
-			margin: 10px;
+			margin: var(--margin-xsmall);
 		}
 	}
 </style>
