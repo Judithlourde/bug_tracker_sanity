@@ -16,6 +16,6 @@
         width: 80%;
         display: flex;
         justify-content: center;
-        font-size: 16px;
+        font-size: var(--body);
     }
 </style>
