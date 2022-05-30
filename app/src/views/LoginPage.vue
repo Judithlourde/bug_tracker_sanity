@@ -4,18 +4,19 @@
             <img class="form__logo" src="/svg/bugsTracker-logo.svg" alt="Logo for the friday.com">
             <h1 class="form__heading">Please Log in</h1>
 
-            <div class="form__email">
+            <div aria-label="email" class="form__email">
                 <!-- <label for="floatingInput">Email address</label> -->
                 <input type="email" class="form-control" id="floatingInput" placeholder=" Username">
                 
             </div>
 
-            <div class="form__password">
+            <div aria-label="password" class="form__password">
                 <!-- <label for="floatingPassword">Password</label> -->
                 <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
             </div>
+
             <RouterLink class="form__logIn" :to="{ name:'bugsBoard' }">
-                <button class="form__logIn" type="submit">
+                <button aria-label="login button" class="form__logIn" type="submit">
                     Log in 
                 </button>
             </RouterLink>
