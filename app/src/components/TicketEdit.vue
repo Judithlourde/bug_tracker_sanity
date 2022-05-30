@@ -56,11 +56,11 @@
 							</select>
 								
 							<div class="ticket-container__form-footer">
-								<button @click="closeTicketSection">
+								<button aria-label="submit button" @click="closeTicketSection">
 									<input class="ticket-container__form-submit" type="submit" value="submit" @click.prevent="handleSubmit"> 
 								</button>
 
-								<button @click="deleteBug(); closeTicketSection()" class="ticket-container__form-delete">Delete</button>
+								<button aria-label="delete button" @click="deleteBug(); closeTicketSection()" class="ticket-container__form-delete">Delete</button>
 							</div>
 						</section>
 					</form>
@@ -264,6 +264,7 @@
 		flex-direction: column;
 		margin: 10px;
 		width: 500px;
+		min-width: 200px;
 	}
 
 	.ticket-container__form textarea {
@@ -284,6 +285,7 @@
 		border: 1.5px solid rgb(218, 218, 218);
 		margin: 5px;
 	}
+
 	.ticket-container__form-footer {
 		display: flex;
 		padding-top: 10px;
@@ -297,7 +299,6 @@
 		height: 50px;
 		border: none;
 		margin: 10px;
-		/* padding: 20px; */
 		background: #0272EA; 
 		display: flex;
 		justify-content: center;
@@ -307,8 +308,35 @@
 	.ticket-container__form-submit:hover,
 	.ticket-container__form-delete:hover {
 		cursor: pointer;
+		outline: 2px solid #fff;
+		outline-offset: -3px;
 		background: #094f99;
-		border: white 2px solid;
+	}
+
+		/* Small screen devices (968px and below) */
+	@media screen and (max-width: 968px) {
+		.ticket-container__header {
+			padding: 20px;
+		}
+
+		.slide-panel__ticket {
+			font-size: 16px;
+		}
+
+		.ticket-container__form label {
+			margin: 5px 0 0 0;	
+		}
+
+		.ticket-container__form-footer {
+			padding-top: 5px;
+		}
+
+		.ticket-container__form-submit,
+		.ticket-container__form-delete {
+			width: 100px;
+			height: 40px;
+			margin: 10px;
+		}
 	}
 </style>
 
