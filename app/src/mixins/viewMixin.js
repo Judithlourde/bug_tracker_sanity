@@ -13,14 +13,7 @@ export default {
 		async sanityFetch(query, params) {
 			this.result = await sanity.fetch(query, params);
 			this.loading = false;
-			console.log(this.result)
 		},
-
-		async sanityFetchProject(projects, params) {
-			this.projectsResult = await sanity.fetch(projects, params);
-			this.loading = false;
-			console.log(this.projectsResult)
-		},  
 
 		metaTags(meta) {
 			const currentURL = window.location.origin + this.$route.path;
