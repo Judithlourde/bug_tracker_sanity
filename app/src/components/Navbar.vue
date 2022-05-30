@@ -11,9 +11,8 @@
 			<router-link :to="{ name:'loginPage' }">
 				<figure>
 					<img src="/svg/person.svg" alt="image for the login page">
-					<figcaption>Login</figcaption>
+					<figcaption>Logout</figcaption>
 				</figure>
-				<!-- <img src="/svg/person.svg" alt="image for the login page"> -->
 			</router-link>
 		</div>
 	</nav>
