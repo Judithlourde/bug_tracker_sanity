@@ -247,7 +247,7 @@
 	.ticket-container__header {
 		display: flex;
 		justify-content: space-between;
-		padding: 20px;
+		padding: 10px 20px;
 	}
 
 	.ticket-container__header img {
@@ -316,7 +316,7 @@
 		/* Small screen devices (968px and below) */
 	@media screen and (max-width: 968px) {
 		.ticket-container__header {
-			padding: 20px;
+			padding: 10px 20px;
 		}
 
 		.slide-panel__ticket {
