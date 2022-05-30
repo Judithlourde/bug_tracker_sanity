@@ -8,7 +8,7 @@
             <div>{{ bugStatus }}</div>
         </div>
 
-        <div class="status-container__background-color" v-if="bugStatus === 'stuck'" :style="{backgroundColor: 'rgb(255,203,0)'}">
+        <div class="status-container__background-color" v-if="bugStatus === 'stuck'" :style="{backgroundColor: 'rgba(226, 67, 92, 1)'}">
             <div>{{ bugStatus }}</div>
         </div>
         <div class="status-container__background-color" v-if="bugStatus === 'not started yet'" :style="{backgroundColor: 'rgb(255,203,0)'}">
