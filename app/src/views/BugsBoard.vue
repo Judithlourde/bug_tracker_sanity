@@ -1,6 +1,6 @@
 <template>
 	<section class="bugsboard-section">
-		<div :class="{ animationActive: ticketAniamation}">
+		<div class="animationActive" :class="{ animationActive: ticketAniamation}">
 			<RouterView />
 		</div>
 
@@ -13,24 +13,24 @@
 		<div v-else class="bugsBoard">
 			<h1>Bugs Tracker</h1>
 			<div class="bugsboard__project-container">
-				<div class="test" v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id">
+				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id">
 
 					<div class="bugsboard__project-container-title">
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
-							<h4 :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</h4>
-							<h4>Reporter</h4>
-							<h4>Status</h4>
-							<h4>Priority</h4>
-							<h4>Assignee</h4>
+							<div :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</div>
+							<div>Reporter</div>
+							<div>Status</div>
+							<div>Priority</div>
+							<div>Assignee</div>
 
 							<div class="progress-display">
 								<div>
-									<h4>Progress</h4>
+									<div>Progress</div>
 								</div>
 							</div>
 
-							<h4>Due Date</h4>
+							<div>Due Date</div>
 						</div>
 					</div>
 
@@ -49,18 +49,6 @@
 							<div class="edit">
 								<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add bug and press enter">
 							</div>
-
-							<!-- <div></div>
-							<div></div>
-							<div></div>
-							<div></div>
-
-							<div class="progress-display">
-								<div>
-            						<div></div>
-        						</div>
-							</div>
-							<div></div> -->
 						</div>
 					</div>
 				</div>
@@ -172,6 +160,7 @@
 		top: 0px;
 		bottom: 0px;
 		right: 0px;
+		/* left: 50px; */
 		border-left: 1px solid;
 		border-color: #c5c7d0;
 		z-index: 1000;
@@ -187,18 +176,6 @@
 			transform: translateX(0px);
 			opacity: 1;
 		}
-		/* 62%{
-			transform: translateX(30px);
-		}
-		70%{
-			transform: skew(-10deg);
-		}
-		80%{
-			transform: skew(0deg) translateX(0px);
-		}
-		90%{
-			transform: skew(-5deg);
-		} */
 		100%{
 			transform: skew(0deg);
 		}
@@ -213,6 +190,8 @@
 	.bugsboard {
 		padding: 20px;
 		width: 100%;
+		position: fixed;
+    	left: 80px;
 	}
 
 	.bugsboard__project-container {
@@ -253,6 +232,18 @@
 
 	/* small screen devices (968px and below) */
     @media screen and (max-width: 968px) {
+		.bugsboard {
+			padding: 20px;
+			width: 100%;
+			position: relative;
+			left: 80px;
+			/* z-index: -1000; */
+		}
+
+		.animationActive .bug-layout {
+			left: 50px;
+		}
+
 		.bugsboard__project-container-title div:nth-child(2),
 		.bugsboard__project-container-title div:nth-child(3),
 		.bugsboard__project-container-title div:nth-child(4),
@@ -273,6 +264,7 @@
 
 	.edit input {
 		border: none;
+		width: 100%;
 	}
 
 	.bugsboard-section {
