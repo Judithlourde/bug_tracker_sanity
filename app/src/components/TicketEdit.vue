@@ -36,7 +36,7 @@
 							<label for="description">Description</label> 
 							<textarea id="description" name="description" rows="4" cols="20" type="text" v-model="bugData.description"></textarea>
 
-							<!-- Add functionality to send images to sanity -->
+							<!-- Add functionality for send images to sanity -->
 							<!-- <label for="screenshot">Screenshot</label>
 							<input type="text" id="screenshot" name="screenshot" v-model="bugData.screenshot"> -->
 
@@ -57,11 +57,11 @@
 							</select>
 								
 							<div class="ticket-container__form-footer">
-								<button aria-label="submit button" @click="closeTicketSection">
-									<input class="ticket-container__form-submit" type="submit" value="submit" @click.prevent="handleSubmit"> 
+								<button aria-label="delete bug" @click="deleteBug(); closeTicketSection(); showDeleteAlert()" class="ticket-container__form-delete">Delete</button>
+								
+								<button aria-label="submit bug" @click="closeTicketSection()">
+									<input class="ticket-container__form-submit" type="submit" value="Submit" @click.prevent="handleSubmit(); showSubmitAlert()"> 
 								</button>
-
-								<button aria-label="delete button" @click="deleteBug(); closeTicketSection()" class="ticket-container__form-delete">Delete</button>
 							</div>
 						</section>
 					</form>
@@ -102,7 +102,8 @@
 				reporterData: '',
 				assigneeData: '',
 				reporterID: '',
-				assigneeID: ''
+				assigneeID: '',
+				error: ''
 			}
 		},
 
@@ -117,6 +118,14 @@
         },
 
 		methods: {
+			showSubmitAlert() {
+				alert('Submited!');
+			},
+
+			showDeleteAlert() {
+            	alert('Do you want to delete this?');  
+        	},
+
 			openSidePanel() {
 				this.isSidePanelVisible = true;
 			},
@@ -137,6 +146,7 @@
 			},
 
 			handleBugData() {
+				// when the bug title created it haven't other data like assignee, reporter etc. So set the data value empty string to avoid error message
 				this.result.map(bug => {
 					if(bug.reporter === null) {
 						this.bugData.reporter = ''
@@ -154,13 +164,13 @@
 					this.bugData.status = bug.status;
 					
 				})
-				console.log(this.bugData)
 			},
 
 			handleSubmit() {
+				// Find the reporter, assignee data(id) form project members by find method
 				this.reporterData = this.result[0].project.projectMembers.find(member => member.name === this.bugData.reporter);
 				this.assigneeData = this.result[0].project.projectMembers.find(member => member.name === this.bugData.assignee);
-				console.log(this.projectMember)
+					// Assining reference type in sanity needs id to check it already exist
 					const reporter = {
 						_id: this.reporterData._id,
 						_type: 'employee',
@@ -168,7 +178,6 @@
 					}
 					sanity.createIfNotExists(reporter).then((res) => {
 						this.reporterID  = res._id;
-						// this.updateBug();
 						const assignee = {
 							_id: this.assigneeData._id,
 							_type: 'employee',
@@ -178,13 +187,12 @@
 							this.assigneeID = res._id;
 							this.updateBug();
 						});
-						// this.updateBug();
 					});
 			},
 
 			updateBug() {
 				sanity
-					.patch(this.result[0]._id)
+					.patch(this.result[0]._id)		// Patch need id for the current bug
 					.set({ reporter: {
 								_type: 'reference',
 								_ref: this.reporterID,
@@ -211,7 +219,7 @@
 						this.$store.dispatch('fetchAndStoreBugsData');
 					})
 					.catch((err) => {
-						console.error('Delete failed: ', err.message)
+						this.error = err.message;
 					})
 			}
 		},
@@ -294,6 +302,7 @@
 
 	.ticket-container__form-footer {
 		display: flex;
+		justify-content: space-between;
 		padding-top: var(--top-xsmall);
 	}
 
