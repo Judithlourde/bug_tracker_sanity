@@ -1,7 +1,8 @@
 <template>
     <div class="TicketOwnerDisplay-container">
         <div class="TicketOwnerDisplay-container__developer-image">
-            <img v-if="ticketOwner" :src="ticketOwner.image.asset.url" alt="">
+            <img v-if="ticketOwner" :src="ticketOwner.image.asset.url" :alt="ticketOwner.image.caption">
+
             <img v-else src="/images/employee-placeholder.png" alt="emloyee placeholder image">
         </div>
         
