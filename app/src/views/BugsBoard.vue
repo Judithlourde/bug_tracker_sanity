@@ -12,13 +12,15 @@
 
 		<div v-else class="bugsBoard">
 			<h1>Bugs Tracker</h1>
+
 			<div class="bugsboard__project-container">
-				<div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id">
+				<!-- <div v-for="(uniqueProject, index) in uniqueProjects" :key="uniqueProject._id"> -->
+				<div v-for="(uniqueProject, index) in projects" :key="uniqueProject._id">
 
 					<div class="bugsboard__project-container-title">
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
-							<div :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</div>
+							<div :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject.name }}</div>
 							<div>Reporter</div>
 							<div>Status</div>
 							<div>Priority</div>
@@ -34,7 +36,7 @@
 						</div>
 					</div>
 
-					<div v-for="bug in bugs.filter(bug => bug.project.name === uniqueProject)" :key="bug._id">
+					<div v-for="bug in bugs.filter(bug => bug.project.name === uniqueProject.name)" :key="bug._id">
 						<TicketCard
 							@get-animate="getAnimation"
 							:filteredBug="bug"
@@ -63,7 +65,7 @@
 	import viewMixin from '../mixins/viewMixin.js';
 	import TicketCard from '../components/TicketCard.vue';
 	import LoadingPage from '../components/LoadingPage.vue';
-	import TicketEdit from '../components/TicketEdit.vue'
+	import TicketEdit from '../components/TicketEdit.vue';
 
 	export default {
 		mixins: [viewMixin],
@@ -94,6 +96,7 @@
 
 		async created() {
 			await this.loadBugs();
+			console.log(this.uniqueProjects)
 			this.metaTags({
 				title: 'Bugs Tracker',
 			});
@@ -127,7 +130,7 @@
 			},
 
 			createBug(uniqueProject, index) {
-				this.projectID = this.projects.find(project => project.name === uniqueProject );
+				this.projectID = this.projects.find(project => project.name === uniqueProject.name );
 				sanity.create({
 					_type: 'bug',
 					title: this.bugData[index],
