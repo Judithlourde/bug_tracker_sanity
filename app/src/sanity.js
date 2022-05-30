@@ -7,4 +7,5 @@ export default sanityClient({
 	apiVersion: '2022-04-29',	// Project started date or updated date
 	token: import.meta.env.VITE_BUG_KEY,
 	useCdn: false,	//false for localhost, true for netlify
+	ignoreBrowserTokenWarning: true	 // hide warning in browser
 });
