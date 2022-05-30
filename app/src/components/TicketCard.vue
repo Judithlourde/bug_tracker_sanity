@@ -112,7 +112,7 @@
     }
 
     .ticketCard__title {
-        font-size: 16px;
+        font-size: var(--body);
         color: inherit;
         text-decoration: none;
         /* position: fixed; */
@@ -124,10 +124,9 @@
         margin: 2px;
     }
 
-    /* .ticketCard__title:hover {
-        background-color: #e6e9ef;
-        cursor: pointer;
-    } */
+    .ticketCard__title a button:hover {
+        text-decoration: underline;
+    }
 
     /* Small screen devices (968px and below) */
     @media screen and (max-width: 968px) {
