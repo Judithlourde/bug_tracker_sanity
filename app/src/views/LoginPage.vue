@@ -6,7 +6,7 @@
 
             <div aria-label="email" class="form__email">
                 <!-- <label for="floatingInput">Email address</label> -->
-                <input type="email" class="form-control" id="floatingInput" placeholder=" Username">
+                <input autocomplete="off" type="email" class="form-control" id="floatingInput" placeholder=" Username">
                 
             </div>
 
@@ -20,21 +20,31 @@
                     Log in 
                 </button>
             </RouterLink>
-
-            <p class="form__copyRights">&copy; <span class="form__copyRights-animate"></span></p>
         </form>
+
+        <footer>
+            <p class="form__copyRights">&copy; <span class="form__copyRights-animate"></span></p>
+        </footer>
+        
     </section>
 </template>
 
 <style>
     .login {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         width: 100%;
         height: 100%;
         background-color: #292F4C;
         color: white;
+    }
+
+    .login footer {
+        position: fixed;
+        bottom: 0;
+        padding-bottom: var(--bottom-small);
     }
 
     .login form {
@@ -46,12 +56,12 @@
     }
 
     .login form > * {
-        padding-bottom: 20px;
+        padding-bottom: var(--bottom-small);
     }
 
     .form__logo {
-        width: 82px;
-        height: 67px;
+        width: 92px;
+        height: 77px;
     }
      
     .form__email,
@@ -62,7 +72,7 @@
 
     .form__email input,
     .form__password input {
-        padding: 10px;
+        padding: var(--padding-xsmall);
     }
 
     .form__logIn {
@@ -81,7 +91,7 @@
     .form__copyRights-animate::before {
         content: '♥ by Judith Peter';
         animation: animate infinite 3s;
-        padding-left: 10px;
+        padding-left: var(--left-xsmall);
     }
   
     @keyframes animate {
