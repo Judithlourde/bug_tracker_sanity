@@ -17,7 +17,7 @@ export default [
 					{
 						name: 'ticketPage', 
 						path: ':ticketSlug',
-						component: TicketPage
+						component: TicketPage	// This is for the dynamic routing
 					}
 				]
 			},
