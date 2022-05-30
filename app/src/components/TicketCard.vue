@@ -65,7 +65,7 @@
 
         data() {
             return {
-                testAnimate: true,
+                setAnimate: true,
             }
         },
 
@@ -75,7 +75,7 @@
             },
 
             emitAnimate() {
-                this.$emit('get-animate', this.testAnimate)
+                this.$emit('get-animate', this.setAnimate)
             }
         }
     }
@@ -93,7 +93,7 @@
     }
 
     .ticketCard > div:hover {
-        outline: 2px solid red;
+        outline: 2px solid #4e5053;
         /* outline-offset: -10px; */
     }
 
