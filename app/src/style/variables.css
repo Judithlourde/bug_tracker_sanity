@@ -1,7 +1,40 @@
 :root {
-	--background: white;
-	--foreground: black;
-	
-	--font-family: "Arial";
-	--font-size: 20px;
+	/* font-size */
+	--heading: 1.4rem;
+	--body: 1rem;
+	--caption: 0.66rem;
+	--font-family: 'Quicksand', sans-serif;
+
+	/* colors */
+	--black: #000;
+	--white: #fff;
+	--secondary: #EE7675;
+	--highlight: #00C0BB;
+	--border-color: #FAFAFA;
+	--footer-color: #F0F0F0;
+
+	/* Margin */
+	--margin-big: 100px;
+
+	--bottom-medium: 40px;
+	--top-medium: var(--bottom-medium);
+	--margin-medium: var(--bottom-medium);
+
+	--bottom-small: 20px;
+	--top-small: var(--bottom-small);
+	--left-small: var(--bottom-small);
+	--right-small: var(--bottom-small);
+	--margin-small: var(--bottom-small);
+
+	--bottom-xsmall: 10px;
+	--top-xsmall: var(--bottom-xsmall);
+	--left-xsmall: var(--bottom-xsmall);
+	--right-xsmall: var(--bottom-xsmall);
+	--margin-xsmall: var(--bottom-xsmall);
+
+	/* Padding */
+	--padding-medium: 40px;
+	--padding-small: 20px;
+	--padding-xsmall: 10px;
 }
+
