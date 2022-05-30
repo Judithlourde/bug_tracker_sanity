@@ -50,7 +50,7 @@ export default {
 		async fetchAndStoreBugsData({ commit }) {
 			const bugsDataFromSanity = await sanity.fetch(globalQuery);
 			commit('storeBugsData', bugsDataFromSanity);
-			commit('filteredProjects')
+			// commit('filteredProjects')
 		},
 	}
 }
