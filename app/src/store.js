@@ -41,7 +41,8 @@ export default {
 
 		filteredProjects(state) {	
 			// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-			state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
+			// state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
+			state.uniqueProjects = state.globalData.data.bugs.map(bug => bug.status)
 			console.log(state.uniqueProjects)
 		},
 	},
