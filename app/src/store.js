@@ -11,7 +11,7 @@ export default {
 				loading: true,
 				data: null
 			},
-			uniqueProjects:[],
+			// uniqueProjects:[],
 		};
 	},
 
@@ -28,9 +28,9 @@ export default {
 			return state.globalData.data.projects;
 		},
 
-		sortedProjects(state) {
-			return state.uniqueProjects;
-		},
+		// sortedProjects(state) {
+		// 	return state.uniqueProjects;
+		// },
 	},
 
 	mutations: {
@@ -39,12 +39,11 @@ export default {
 			state.globalData.loading = false;
 		},
 
-		filteredProjects(state) {	
-			// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
-			// state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
-			state.uniqueProjects = state.globalData.data.bugs.map(bug => bug.status)
-			console.log(state.uniqueProjects)
-		},
+		// filteredProjects(state) {	
+		// 	// Javascript Sets: https://alligator.io/js/sets-introduction/#:~:text=Sets%20are%20a%20new%20object,like%20object%20literals%20or%20arrays.
+		// 	state.uniqueProjects = [ ...new Set(state.globalData.data.bugs.map(({ project }) => project.name)) ]; 
+		// 	console.log(state.uniqueProjects)
+		// },
 	},
 	
 	actions: {
