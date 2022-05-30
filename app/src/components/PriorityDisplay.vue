@@ -29,10 +29,9 @@
 
 <style>
     .priority-container {
-        /* min-width: 200px; */
         display: flex;
         justify-content: center;
-        font-size: 16px;
+        font-size: var(--body);
     }
 
     .priority-container__background-color {
@@ -41,6 +40,6 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        color: white;
+        color: var(--white);
     }
 </style>
