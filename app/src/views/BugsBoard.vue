@@ -18,19 +18,19 @@
 					<div class="bugsboard__project-container-title">
 						<div>
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
-							<div :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</div>
-							<div>Reporter</div>
-							<div>Status</div>
-							<div>Priority</div>
-							<div>Assignee</div>
+							<h4 :style="{ color: this.colors[index] || this.colors[0] }">{{ uniqueProject }}</h4>
+							<h4>Reporter</h4>
+							<h4>Status</h4>
+							<h4>Priority</h4>
+							<h4>Assignee</h4>
 
 							<div class="progress-display">
 								<div>
-									<div>Progress</div>
+									<h4>Progress</h4>
 								</div>
 							</div>
 
-							<div>Due Date</div>
+							<h4>Due Date</h4>
 						</div>
 					</div>
 
@@ -47,10 +47,10 @@
 							<div class="ticketCard__color" :style="{ backgroundColor: this.colors[index] || this.colors[0] }"></div>
 
 							<div class="edit">
-								<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add Bug">
+								<input type="text" v-model="bugData[index]" @keyup.enter="createBug(uniqueProject, index)" placeholder="+ Add bug and press enter">
 							</div>
 
-							<div></div>
+							<!-- <div></div>
 							<div></div>
 							<div></div>
 							<div></div>
@@ -60,7 +60,7 @@
             						<div></div>
         						</div>
 							</div>
-							<div></div>
+							<div></div> -->
 						</div>
 					</div>
 				</div>
@@ -90,7 +90,6 @@
 		data() {
 			return {
 				ticketAniamation: false,
-				bugAnimation: '',
 				results: [],
 				uniqueProjects:[],
 				bugData: [],
@@ -131,18 +130,16 @@
 		},
 
 		methods: {
-			getAnimation(test) {
-				console.log(test)
-				this.ticketAniamation = test;
-				console.log(this.ticketAniamation)
+			getAnimation(animate) {
+				this.ticketAniamation = animate;
 			},
+
 			async loadBugs() {
 				this.$store.dispatch('fetchAndStoreBugsData');
 			},
 
 			createBug(uniqueProject, index) {
 				this.projectID = this.projects.find(project => project.name === uniqueProject );
-				console.log(this.projectID._id)
 				sanity.create({
 					_type: 'bug',
 					title: this.bugData[index],
@@ -166,7 +163,6 @@
 			},
 		},
 	}
-
 </script>
 
 <style>
