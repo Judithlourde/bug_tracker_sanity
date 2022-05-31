@@ -123,7 +123,7 @@
 			},
 
 			showDeleteAlert() {
-            	alert('Do you want to delete this?');  
+            	alert('Bug deleteted');  
         	},
 
 			openSidePanel() {
