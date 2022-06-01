@@ -6,12 +6,11 @@
 
             <div aria-label="username" class="form__email">
                 <!-- <label for="floatingInput">Email address</label> -->
-                <input autocomplete="off" type="email" class="form-control" id="floatingInput" placeholder=" Username">
-                
+                <input autocomplete="off" type="email" aria-required="true" class="form-control" id="floatingInput" placeholder="Username(optional)">  
             </div>
 
             <div aria-label="password" class="form__password">
-                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <input type="password"  aria-required="true" class="form-control" id="floatingPassword" placeholder="Password(optional)">
             </div>
 
             <RouterLink class="form__logIn" :to="{ name:'bugsBoard' }">
