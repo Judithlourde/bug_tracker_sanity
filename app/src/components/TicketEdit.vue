@@ -325,7 +325,15 @@
 		cursor: pointer;
 		outline: 2px solid #fff;
 		outline-offset: -3px;
-		background: #094f99;
+		/* background: #094f99; */
+	}
+
+	.ticket-container__form-submit:hover {
+		background: #094f99; 
+	}
+
+	.ticket-container__form-delete:hover {
+		background: rgb(210, 5, 5); 
 	}
 
 		/* Small screen devices (968px and below) */
